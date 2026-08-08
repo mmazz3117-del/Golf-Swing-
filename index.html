@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#07150d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="game-version" content="v32.5">
+  <meta name="game-version" content="v32.6">
 <script>(function(){var lastH=0,syncing=!1;function s(){var vv=(window.visualViewport&&window.visualViewport.height)||window.innerHeight,h=vv,sc=window.screen||{},sh=sc.height||0,sw=sc.width||0;if(sh>vv&&sh-vv<160&&sh>=sw)h=sh;if(h===lastH)return;lastH=h;document.documentElement.style.setProperty("--app-h",h+"px");if(!syncing){syncing=!0;setTimeout(function(){syncing=!1;try{window.dispatchEvent(new Event("resize"))}catch(e){}},60)}}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",function(){setTimeout(s,240)});if(window.visualViewport){window.visualViewport.addEventListener("resize",s);window.visualViewport.addEventListener("scroll",s)}window.addEventListener("load",function(){s();setTimeout(s,300);setTimeout(s,1200)});document.addEventListener("visibilitychange",s)})();</script>
   <style>:root { color-scheme: dark; }
 
@@ -543,7 +543,7 @@ button { font: inherit; }
 }
 
 .brand-lockup::after {
-  content: "v32.5";
+  content: "v32.6";
   position: absolute;
   left: calc(100% + 7px);
   bottom: -1px;
@@ -5233,5 +5233,259 @@ three/build/three.module.js:
    *)
 */
 </script>
+
+<!-- =========================================================
+     LONG DRIVE v32.6 — ISOLATED LANDING ANIMATION PASS
+     Scope: landing cutscene only. No tee/golfer/gameplay changes.
+     ========================================================= -->
+<style id="long-drive-v32-6-landing">
+/* These rules do nothing until JS adds .ld-v326 to an actual landing-cut node. */
+.landing-cut.ld-v326 .landing-stage {
+  height: 220px;
+  top: 55%;
+  perspective: 760px;
+}
+
+/* Make the existing ground strip read more like turf without replacing the course image. */
+.landing-cut.ld-v326 .stage-ground {
+  height: 78px;
+  background:
+    repeating-linear-gradient(91deg, rgba(255,255,255,.055) 0 1px, transparent 1px 5px),
+    repeating-linear-gradient(87deg, rgba(5,45,15,.11) 0 1px, transparent 1px 7px),
+    linear-gradient(180deg,#73ac5b 0%,#4d873f 28%,#286031 70%,#173b23 100%);
+  box-shadow:
+    inset 0 14px 18px rgba(255,255,255,.035),
+    inset 0 -24px 28px rgba(0,0,0,.22);
+}
+.landing-cut.ld-v326 .stage-ground::before {
+  top:-11px;
+  height:13px;
+  background:
+    repeating-linear-gradient(102deg, transparent 0 3px, rgba(99,168,75,.95) 3px 4px, transparent 4px 8px),
+    repeating-linear-gradient(78deg, transparent 0 5px, rgba(70,139,57,.88) 5px 6px, transparent 6px 11px);
+}
+.landing-cut.ld-v326 .stage-ground::after {
+  top:-5px;
+  height:8px;
+  background:repeating-linear-gradient(91deg,#4e9345 0 1px,transparent 1px 4px,#70ad5a 4px 5px,transparent 5px 8px);
+}
+
+/* More golf-ball-like appearance, but preserve the original element/DOM. */
+.landing-cut.ld-v326 .stage-ball {
+  width:23px;
+  height:23px;
+  background:
+    radial-gradient(circle at 28% 25%,rgba(255,255,255,.98) 0 13%,transparent 14%),
+    radial-gradient(circle at 57% 31%,rgba(143,153,147,.42) 0 4%,transparent 5%),
+    radial-gradient(circle at 36% 62%,rgba(143,153,147,.38) 0 4%,transparent 5%),
+    radial-gradient(circle at 67% 68%,rgba(132,143,137,.32) 0 3.5%,transparent 4.5%),
+    radial-gradient(circle at 40% 36%,#fff 0 24%,#ecefeb 57%,#a7afa9 100%);
+  box-shadow: inset -3px -4px 6px rgba(0,0,0,.16);
+  filter:drop-shadow(0 7px 5px rgba(0,0,0,.28));
+}
+
+/* Override only the cutscene ball animations. */
+.landing-cut.ld-v326 .landing-stage:not(.holed):not(.lipped) .stage-ball {
+  animation:ld-v326-land 3.05s .08s both !important;
+}
+@keyframes ld-v326-land {
+  0%   { transform:translate(0,-164px) rotate(0); opacity:.92; animation-timing-function:cubic-bezier(.55,.02,.80,.50); }
+  17%  { transform:translate(72px,0) rotate(260deg); animation-timing-function:cubic-bezier(.15,.64,.32,1); }
+  29%  { transform:translate(132px,-39px) rotate(465deg); animation-timing-function:cubic-bezier(.58,.02,.82,.50); }
+  40%  { transform:translate(181px,0) rotate(632deg); animation-timing-function:cubic-bezier(.18,.66,.34,1); }
+  49%  { transform:translate(217px,-15px) rotate(756deg); animation-timing-function:ease-in; }
+  57%  { transform:translate(244px,0) rotate(852deg); animation-timing-function:ease-out; }
+  64%  { transform:translate(260px,-5px) rotate(910deg); animation-timing-function:ease-in; }
+  70%  { transform:translate(272px,0) rotate(953deg); animation-timing-function:cubic-bezier(.12,.62,.28,1); }
+  100% { transform:translate(288px,0) rotate(1022deg); opacity:1; }
+}
+.landing-cut.ld-v326 .landing-stage:not(.holed):not(.lipped) .stage-shadow {
+  animation:ld-v326-shadow 3.05s .08s both !important;
+}
+@keyframes ld-v326-shadow {
+  0%   { transform:translate(0,0) scale(.48); opacity:.12; }
+  17%  { transform:translate(72px,0) scale(1.04); opacity:.52; }
+  29%  { transform:translate(132px,0) scale(.72); opacity:.25; }
+  40%  { transform:translate(181px,0) scale(1.02); opacity:.51; }
+  49%  { transform:translate(217px,0) scale(.84); opacity:.36; }
+  57%  { transform:translate(244px,0) scale(.98); opacity:.48; }
+  64%  { transform:translate(260px,0) scale(.91); opacity:.42; }
+  70%,100% { transform:translate(288px,0) scale(.96); opacity:.48; }
+}
+
+/* Cup replay: same landing physics, then a slower final roll and actual drop. */
+.landing-cut.ld-v326 .landing-stage.holed .stage-ball {
+  animation:ld-v326-hole 3.55s .08s both !important;
+}
+@keyframes ld-v326-hole {
+  0%   { transform:translate(0,-164px) rotate(0); opacity:.92; animation-timing-function:cubic-bezier(.55,.02,.80,.50); }
+  17%  { transform:translate(72px,0) rotate(260deg); animation-timing-function:cubic-bezier(.15,.64,.32,1); }
+  29%  { transform:translate(132px,-39px) rotate(465deg); animation-timing-function:cubic-bezier(.58,.02,.82,.50); }
+  40%  { transform:translate(181px,0) rotate(632deg); animation-timing-function:cubic-bezier(.18,.66,.34,1); }
+  49%  { transform:translate(217px,-15px) rotate(756deg); animation-timing-function:ease-in; }
+  57%  { transform:translate(244px,0) rotate(852deg); animation-timing-function:ease-out; }
+  64%  { transform:translate(260px,-5px) rotate(910deg); animation-timing-function:ease-in; }
+  70%  { transform:translate(272px,0) rotate(953deg); animation-timing-function:cubic-bezier(.12,.62,.28,1); }
+  88%  { transform:translate(297px,0) rotate(1025deg); animation-timing-function:cubic-bezier(.18,.55,.30,1); }
+  94%  { transform:translate(300px,2px) rotate(1040deg) scale(.94); }
+  100% { transform:translate(300px,15px) rotate(1053deg) scale(.58); opacity:.04; }
+}
+.landing-cut.ld-v326 .landing-stage.holed .stage-shadow {
+  animation:ld-v326-hole-shadow 3.55s .08s both !important;
+}
+@keyframes ld-v326-hole-shadow {
+  0% { transform:translate(0,0) scale(.48); opacity:.12; }
+  17% { transform:translate(72px,0) scale(1.04); opacity:.52; }
+  40% { transform:translate(181px,0) scale(1.02); opacity:.51; }
+  70% { transform:translate(272px,0) scale(.96); opacity:.48; }
+  88% { transform:translate(297px,0) scale(.85); opacity:.43; }
+  100% { transform:translate(300px,0) scale(.28); opacity:0; }
+}
+
+/* Lip out retains the ball instead of dropping. */
+.landing-cut.ld-v326 .landing-stage.lipped .stage-ball {
+  animation:ld-v326-lip 3.55s .08s both !important;
+}
+@keyframes ld-v326-lip {
+  0%   { transform:translate(0,-164px) rotate(0); opacity:.92; }
+  17%  { transform:translate(72px,0) rotate(260deg); }
+  29%  { transform:translate(132px,-39px) rotate(465deg); }
+  40%  { transform:translate(181px,0) rotate(632deg); }
+  49%  { transform:translate(217px,-15px) rotate(756deg); }
+  57%  { transform:translate(244px,0) rotate(852deg); }
+  64%  { transform:translate(260px,-5px) rotate(910deg); }
+  70%  { transform:translate(272px,0) rotate(953deg); }
+  88%  { transform:translate(296px,-1px) rotate(1025deg); }
+  94%  { transform:translate(301px,-7px) rotate(1042deg); }
+  100% { transform:translate(310px,1px) rotate(1070deg); opacity:1; }
+}
+
+/* Turf fragments are injected only into the landing cutscene. */
+.ld-v326-turf {
+  position:absolute;
+  inset:0;
+  z-index:3;
+  overflow:hidden;
+  pointer-events:none;
+}
+.ld-v326-turf i {
+  --dx:0px; --dy:-28px; --rot:180deg;
+  position:absolute;
+  left:18%;
+  bottom:57px;
+  width:3px;
+  height:9px;
+  border-radius:60% 0 60% 0;
+  background:#6c9e4c;
+  opacity:0;
+  transform-origin:50% 100%;
+  animation:ld-v326-turf-fly .72s .50s cubic-bezier(.14,.6,.28,1) both;
+}
+.ld-v326-turf i:nth-child(2){--dx:17px;--dy:-34px;--rot:240deg;animation-delay:.53s}
+.ld-v326-turf i:nth-child(3){--dx:-14px;--dy:-29px;--rot:-195deg;animation-delay:.56s}
+.ld-v326-turf i:nth-child(4){left:43%;--dx:11px;--dy:-21px;--rot:170deg;animation-delay:1.20s}
+.ld-v326-turf i:nth-child(5){left:44%;--dx:-9px;--dy:-24px;--rot:-205deg;animation-delay:1.24s}
+.ld-v326-turf i:nth-child(6){left:62%;--dx:8px;--dy:-15px;--rot:130deg;animation-delay:1.70s}
+@keyframes ld-v326-turf-fly {
+  0%{opacity:0;transform:translate(0,0) rotate(0) scale(.55)}
+  18%{opacity:.95}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--rot)) scale(1.05)}
+}
+
+/* Make the existing cup read a little deeper. */
+.landing-cut.ld-v326 .hole-cup {
+  width:22px;
+  height:9px;
+  left:-11px;
+  bottom:8px;
+  background:radial-gradient(ellipse at 50% 25%,#000 0 56%,#06130a 59% 72%,#8eb27d 74% 79%,#214928 82% 100%);
+  box-shadow:0 2px 0 rgba(225,245,214,.28), inset 0 4px 5px rgba(0,0,0,.95), 0 7px 10px rgba(0,0,0,.2);
+}
+
+/* Do not let any animation styling escape the cutscene. */
+.game-shell:not(.landing) .ld-v326-turf { display:none !important; }
+
+@media (prefers-reduced-motion:reduce) {
+  .landing-cut.ld-v326 .stage-ball,
+  .landing-cut.ld-v326 .stage-shadow,
+  .ld-v326-turf i { animation-duration:.01ms !important; animation-delay:0ms !important; }
+}
+</style>
+
+<script id="long-drive-v32-6-landing-script">
+(()=>{
+  const done=new WeakSet();
+
+  function soundIsOn(){
+    const b=document.querySelector('.sound-button');
+    if(!b) return true;
+    const label=(b.getAttribute('aria-label')||'').toLowerCase();
+    return !label.includes('unmute');
+  }
+  function ctx(){
+    if(!soundIsOn()) return null;
+    try{
+      const C=window.AudioContext||window.webkitAudioContext;
+      if(!C) return null;
+      const a=window.__ld326Audio||(window.__ld326Audio=new C({latencyHint:'interactive'}));
+      if(a.state!=='running' && a.resume) a.resume().catch(()=>{});
+      return a;
+    }catch(e){return null}
+  }
+  function noise(a,when,dur=.07,freq=1300,gain=.045){
+    const len=Math.max(1,Math.floor(a.sampleRate*dur));
+    const b=a.createBuffer(1,len,a.sampleRate),d=b.getChannelData(0);
+    for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.1);
+    const s=a.createBufferSource();s.buffer=b;
+    const f=a.createBiquadFilter();f.type='bandpass';f.frequency.value=freq;
+    const g=a.createGain();g.gain.setValueAtTime(gain,when);g.gain.exponentialRampToValueAtTime(.0001,when+dur);
+    s.connect(f);f.connect(g);g.connect(a.destination);s.start(when);
+  }
+  function tone(a,when,f1,f2,dur,gain,type='sine'){
+    const o=a.createOscillator(),g=a.createGain();o.type=type;
+    o.frequency.setValueAtTime(f1,when);o.frequency.exponentialRampToValueAtTime(Math.max(1,f2),when+dur);
+    g.gain.setValueAtTime(.0001,when);g.gain.exponentialRampToValueAtTime(gain,when+.008);g.gain.exponentialRampToValueAtTime(.0001,when+dur);
+    o.connect(g);g.connect(a.destination);o.start(when);o.stop(when+dur+.02);
+  }
+  function turfSound(){
+    const a=ctx();if(!a)return;const t=a.currentTime+.01;
+    noise(a,t,.075,1200,.043);tone(a,t,105,58,.10,.032,'triangle');
+  }
+  function cupSound(){
+    const a=ctx();if(!a)return;const t=a.currentTime+.01;
+    tone(a,t,1550,1120,.06,.08);
+    tone(a,t+.045,890,620,.08,.055,'triangle');
+    noise(a,t+.02,.055,3100,.035);
+    tone(a,t+.13,170,72,.12,.045,'triangle');
+  }
+
+  // Prime supplemental audio only after a real user gesture.
+  ['pointerdown','touchstart','click','keydown'].forEach(ev=>{
+    document.addEventListener(ev,()=>ctx(),{capture:true,passive:true});
+  });
+
+  function install(cut){
+    if(done.has(cut)) return;
+    done.add(cut);
+    cut.classList.add('ld-v326');
+
+    const spray=document.createElement('div');
+    spray.className='ld-v326-turf';
+    spray.innerHTML='<i></i><i></i><i></i><i></i><i></i><i></i>';
+    cut.appendChild(spray);
+
+    const stage=cut.querySelector('.landing-stage');
+    const holed=!!stage?.classList.contains('holed');
+    setTimeout(turfSound,520);
+    if(holed) setTimeout(cupSound,3250);
+  }
+
+  function scan(){ document.querySelectorAll('.landing-cut').forEach(install); }
+  const root=document.getElementById('root')||document.body;
+  new MutationObserver(scan).observe(root,{childList:true,subtree:true});
+  scan();
+})();
+</script>
+
 </body>
 </html>
