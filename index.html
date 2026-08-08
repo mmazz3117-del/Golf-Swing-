@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#07150d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="game-version" content="v32.2">
+  <meta name="game-version" content="v32.3">
 <script>(function(){var lastH=0,syncing=!1;function s(){var vv=(window.visualViewport&&window.visualViewport.height)||window.innerHeight,h=vv,sc=window.screen||{},sh=sc.height||0,sw=sc.width||0;if(sh>vv&&sh-vv<160&&sh>=sw)h=sh;if(h===lastH)return;lastH=h;document.documentElement.style.setProperty("--app-h",h+"px");if(!syncing){syncing=!0;setTimeout(function(){syncing=!1;try{window.dispatchEvent(new Event("resize"))}catch(e){}},60)}}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",function(){setTimeout(s,240)});if(window.visualViewport){window.visualViewport.addEventListener("resize",s);window.visualViewport.addEventListener("scroll",s)}window.addEventListener("load",function(){s();setTimeout(s,300);setTimeout(s,1200)});document.addEventListener("visibilitychange",s)})();</script>
   <style>:root { color-scheme: dark; }
 
@@ -543,7 +543,7 @@ button { font: inherit; }
 }
 
 .brand-lockup::after {
-  content: "v32.2";
+  content: "v32.3";
   position: absolute;
   left: calc(100% + 7px);
   bottom: -1px;
@@ -1222,25 +1222,27 @@ html, body { height: var(--app-h, 100%) !important; }
 .game-shell.scene-coast .fairway-guide { top: 51%; }
 </style>
 
-<!-- v32.2: tee-address perspective/alignment only -->
-<style id="long-drive-v32-2-alignment">
-/* Bring the player toward the tee so the clubhead addresses the ball naturally.
-   Rival positioning and all gameplay/physics remain unchanged. */
+<!-- v32.3: golfer-to-ball address and swing alignment -->
+<style id="long-drive-v32-3-alignment">
 .golfer-sprite:not(.rival-sprite) {
-  transform: translateX(-60%) scale(.96) !important;
   transform-origin: 50% 92% !important;
+  transform: translateX(-53%) scale(.94) !important;
 }
 .golfer-sprite:not(.rival-sprite).pose-address,
+.golfer-sprite:not(.rival-sprite).pose-downswing,
+.golfer-sprite:not(.rival-sprite).pose-impact {
+  transform: translateX(-53%) scale(.94) !important;
+}
 .golfer-sprite:not(.rival-sprite).pose-takeaway,
 .golfer-sprite:not(.rival-sprite).pose-half-backswing,
 .golfer-sprite:not(.rival-sprite).pose-top-backswing,
-.golfer-sprite:not(.rival-sprite).pose-backswing,
-.golfer-sprite:not(.rival-sprite).pose-downswing,
-.golfer-sprite:not(.rival-sprite).pose-impact,
+.golfer-sprite:not(.rival-sprite).pose-backswing {
+  transform: translateX(-54%) scale(.94) !important;
+}
 .golfer-sprite:not(.rival-sprite).pose-release,
 .golfer-sprite:not(.rival-sprite).pose-finish,
 .golfer-sprite:not(.rival-sprite).pose-followthrough {
-  transform: translateX(-60%) scale(.96) !important;
+  transform: translateX(-51%) scale(.94) !important;
 }
 </style>
 
