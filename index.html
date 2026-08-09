@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#07150d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="game-version" content="v34.0">
+  <meta name="game-version" content="v34.1">
 <script>(function(){var lastH=0,syncing=!1;function s(){var vv=(window.visualViewport&&window.visualViewport.height)||window.innerHeight,h=vv,sc=window.screen||{},sh=sc.height||0,sw=sc.width||0;if(sh>vv&&sh-vv<160&&sh>=sw)h=sh;if(h===lastH)return;lastH=h;document.documentElement.style.setProperty("--app-h",h+"px");if(!syncing){syncing=!0;setTimeout(function(){syncing=!1;try{window.dispatchEvent(new Event("resize"))}catch(e){}},60)}}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",function(){setTimeout(s,240)});if(window.visualViewport){window.visualViewport.addEventListener("resize",s);window.visualViewport.addEventListener("scroll",s)}window.addEventListener("load",function(){s();setTimeout(s,300);setTimeout(s,1200)});document.addEventListener("visibilitychange",s)})();</script>
   <style>:root { color-scheme: dark; }
 
@@ -543,7 +543,7 @@ button { font: inherit; }
 }
 
 .brand-lockup::after {
-  content: "v34.0";
+  content: "v34.1";
   position: absolute;
   left: calc(100% + 7px);
   bottom: -1px;
@@ -5697,5 +5697,6 @@ three/build/three.module.js:
 })();
 </script>
 
+\n<!-- LONG DRIVE v34.1 — OOB display + header interaction repair -->\n<style id="long-drive-v34-1-repair">\n/* Keep all top controls above landing/results layers and make them explicitly tappable. */\n.top-hud {\n  z-index: 70 !important;\n  pointer-events: none !important;\n}\n.top-hud .hud-stats,\n.top-hud button,\n.club-chip,\n.sound-button,\n.challenge-chip {\n  pointer-events: auto !important;\n}\n.challenge-chip {\n  z-index: 71 !important;\n}\n\n/* The stable game used to hide Range Shop during landing. Keep it usable now. */\n.game-shell.landing .challenge-chip,\n.game-shell.landed .challenge-chip {\n  opacity: 1 !important;\n  visibility: visible !important;\n  pointer-events: auto !important;\n}\n\n/* Clean OOB result: retain the normal landing background/transition, but remove\n   the old synthetic grass strip and stage graphics. Do NOT disable the base\n   landing-cut animation because the game uses it to advance to results. */\n.landing-cut.ld-v341-oob .landing-stage,\n.landing-cut.ld-v341-oob .landing-spot {\n  display: none !important;\n}\n.landing-cut.ld-v341-oob {\n  background-size: cover !important;\n  background-position: center 66% !important;\n}\n.landing-cut.ld-v341-oob::before {\n  background:\n    linear-gradient(180deg,rgba(4,13,8,.18) 0%,transparent 43%,rgba(4,13,8,.30) 100%) !important;\n}\n.landing-cut.ld-v341-oob .landing-readout {\n  top: 25% !important;\n}\n.landing-cut.ld-v341-oob .landing-comparison {\n  top: auto !important;\n  bottom: 8% !important;\n}\n\n/* Any purely visual custom replay layer must never steal taps. */\n.ld-v34-replay,\n.ld-v34-replay * {\n  pointer-events: none !important;\n}\n</style>\n<script id="long-drive-v34-1-repair-script">\n(()=>{\n  function isOOB(cut){\n    const label=(cut?.querySelector('.landing-readout > span')?.textContent||'')\n      .trim().toUpperCase();\n    return label==='OUT OF BOUNDS' || (cut?.textContent||'').toUpperCase().includes('OUT OF BOUNDS');\n  }\n  function sync(){\n    document.querySelectorAll('.landing-cut').forEach(cut=>{\n      cut.classList.toggle('ld-v341-oob',isOOB(cut));\n    });\n    /* Defensive reset: never leave top buttons inert due to an inline style. */\n    document.querySelectorAll('.club-chip,.sound-button,.challenge-chip').forEach(el=>{\n      el.style.pointerEvents='';\n    });\n  }\n  const root=document.getElementById('root')||document.body;\n  new MutationObserver(sync).observe(root,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['class']});\n  sync();\n})();\n</script>\n
 </body>
 </html>
