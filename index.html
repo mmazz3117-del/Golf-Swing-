@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#07150d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="game-version" content="v33.1">
+  <meta name="game-version" content="v33.2">
 <script>(function(){var lastH=0,syncing=!1;function s(){var vv=(window.visualViewport&&window.visualViewport.height)||window.innerHeight,h=vv,sc=window.screen||{},sh=sc.height||0,sw=sc.width||0;if(sh>vv&&sh-vv<160&&sh>=sw)h=sh;if(h===lastH)return;lastH=h;document.documentElement.style.setProperty("--app-h",h+"px");if(!syncing){syncing=!0;setTimeout(function(){syncing=!1;try{window.dispatchEvent(new Event("resize"))}catch(e){}},60)}}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",function(){setTimeout(s,240)});if(window.visualViewport){window.visualViewport.addEventListener("resize",s);window.visualViewport.addEventListener("scroll",s)}window.addEventListener("load",function(){s();setTimeout(s,300);setTimeout(s,1200)});document.addEventListener("visibilitychange",s)})();</script>
   <style>:root { color-scheme: dark; }
 
@@ -543,7 +543,7 @@ button { font: inherit; }
 }
 
 .brand-lockup::after {
-  content: "v33.1";
+  content: "v33.2";
   position: absolute;
   left: calc(100% + 7px);
   bottom: -1px;
@@ -6248,6 +6248,347 @@ three/build/three.module.js:
   }
 
   function scan(){document.querySelectorAll('.landing-cut').forEach(install)}
+  const root=document.getElementById('root')||document.body;
+  new MutationObserver(scan).observe(root,{childList:true,subtree:true});
+  scan();
+})();
+</script>
+
+
+<!-- LONG DRIVE v33.2 — yardage-calibrated replay + cleaner result HUD -->
+<style id="long-drive-v33-2">
+/* Hide the prior v33.1 animated layer; v33.2 installs its own calibrated one. */
+.landing-cut.ld-v332 .ld-v331-box { display:none !important; }
+
+/* Hide obstructive top-center controls only during landing/results. */
+.ld-result-hidden {
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+
+/* Keep the approved wider replay box dimensions. */
+.ld-v332-box {
+  position:absolute;
+  left:3.5%;
+  right:3.5%;
+  top:51.5%;
+  height:315px;
+  z-index:12;
+  overflow:hidden;
+  border:2px solid rgba(199,243,107,.96);
+  border-radius:20px;
+  background:#16321d;
+  box-shadow:0 17px 38px rgba(0,0,0,.38), inset 0 0 0 1px rgba(255,255,255,.055);
+}
+.ld-v332-photo {
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-position:center center;
+}
+.ld-v332-box::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(1,7,4,.04),transparent 43%,rgba(1,7,4,.07)),
+             radial-gradient(ellipse at 50% 96%,transparent 0 52%,rgba(0,0,0,.10) 100%);
+}
+
+/* Dynamic marker cards */
+.ld-v332-marker {
+  position:absolute;
+  top:42px;
+  z-index:5;
+  transform:translateX(-50%);
+  min-width:46px;
+  padding:5px 6px 4px;
+  border-radius:6px;
+  background:rgba(4,12,8,.83);
+  border:1px solid rgba(255,255,255,.17);
+  color:#fff;
+  text-align:center;
+  box-shadow:0 5px 12px rgba(0,0,0,.25);
+}
+.ld-v332-marker strong {
+  display:block;
+  font:900 12px/1 system-ui,-apple-system,sans-serif;
+  letter-spacing:.06em;
+}
+.ld-v332-marker small {
+  display:block;
+  margin-top:2px;
+  font:800 6px/1 system-ui,-apple-system,sans-serif;
+  letter-spacing:.13em;
+  opacity:.75;
+}
+.ld-v332-marker::after {
+  content:"";
+  position:absolute;
+  left:50%;
+  top:39px;
+  height:68px;
+  border-left:1px dashed rgba(255,255,255,.68);
+}
+.ld-v332-marker.m1 { left:16%; }
+.ld-v332-marker.m2 { left:50%; }
+.ld-v332-marker.m3 { left:84%; }
+
+.ld-v332-ball {
+  position:absolute;
+  z-index:10;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 29% 25%,#fff 0 14%,transparent 15%),
+    radial-gradient(circle at 59% 34%,rgba(128,139,133,.42) 0 4%,transparent 5%),
+    radial-gradient(circle at 37% 64%,rgba(128,139,133,.36) 0 4%,transparent 5%),
+    radial-gradient(circle at 42% 38%,#fff 0 24%,#ecefeb 58%,#9da59f 100%);
+  box-shadow:inset -3px -4px 6px rgba(0,0,0,.16);
+  filter:drop-shadow(0 6px 4px rgba(0,0,0,.30));
+  transform:translate(-50%,-50%);
+  will-change:left,top,transform,opacity;
+}
+.ld-v332-shadow {
+  position:absolute;
+  z-index:9;
+  width:33px;
+  height:8px;
+  border-radius:50%;
+  background:rgba(0,0,0,.40);
+  filter:blur(2.5px);
+  transform:translate(-50%,-50%);
+}
+.ld-v332-spray {
+  position:absolute;
+  z-index:11;
+  width:4px;height:4px;
+  opacity:0;
+}
+.ld-v332-spray i {
+  position:absolute;width:3px;height:9px;border-radius:70% 0 70% 0;background:#688842;
+}
+.ld-v332-spray i:nth-child(1){transform:translate(-14px,-7px) rotate(-42deg)}
+.ld-v332-spray i:nth-child(2){transform:translate(1px,-19px) rotate(19deg)}
+.ld-v332-spray i:nth-child(3){transform:translate(15px,-9px) rotate(57deg)}
+.ld-v332-spray i:nth-child(4){transform:translate(-4px,-25px) rotate(-73deg)}
+.ld-v332-spray.burst{animation:ld332spray .46s ease-out both}
+@keyframes ld332spray{
+  0%{opacity:0;transform:scale(.35)}
+  18%{opacity:1}
+  100%{opacity:0;transform:translate(-10px,-30px) rotate(-38deg) scale(1.45)}
+}
+.ld-v332-tag {
+  position:absolute;left:50%;bottom:10px;z-index:12;transform:translateX(-50%);
+  padding:6px 13px;border:1px solid rgba(255,255,255,.16);border-radius:999px;
+  background:rgba(4,15,9,.76);color:#d5ff76;
+  font:900 9px/1 system-ui,-apple-system,sans-serif;letter-spacing:.14em;white-space:nowrap;
+}
+
+@media (max-height:760px) {
+  .ld-v332-box { top:50%; height:285px; }
+}
+</style>
+
+<script id="long-drive-v33-2-script">
+(()=>{
+  const seen=new WeakSet();
+
+  function getAudio(){
+    try{
+      const C=window.AudioContext||window.webkitAudioContext;
+      if(!C)return null;
+      const a=window.__ld332Audio||(window.__ld332Audio=new C({latencyHint:'interactive'}));
+      if(a.state!=='running'&&a.resume)a.resume().catch(()=>{});
+      return a;
+    }catch(e){return null}
+  }
+  ['pointerdown','touchstart','click'].forEach(ev=>
+    document.addEventListener(ev,()=>getAudio(),{capture:true,passive:true})
+  );
+  function tone(a,t,f1,f2,d,g){
+    const o=a.createOscillator(),v=a.createGain();
+    o.frequency.setValueAtTime(f1,t);o.frequency.exponentialRampToValueAtTime(f2,t+d);
+    v.gain.setValueAtTime(.0001,t);v.gain.exponentialRampToValueAtTime(g,t+.006);
+    v.gain.exponentialRampToValueAtTime(.0001,t+d);
+    o.connect(v);v.connect(a.destination);o.start(t);o.stop(t+d+.02);
+  }
+  function hitSound(){const a=getAudio();if(a)tone(a,a.currentTime+.01,120,62,.085,.026)}
+  function cupSound(){const a=getAudio();if(!a)return;const t=a.currentTime+.01;tone(a,t,1500,1020,.06,.07);tone(a,t+.065,185,72,.11,.04)}
+
+  function parseYards(cut){
+    const strong=cut.querySelector('.landing-readout strong');
+    const n=parseInt((strong?.textContent||'').replace(/\D/g,''),10);
+    return Number.isFinite(n)?n:300;
+  }
+
+  function markerSet(yards){
+    // Use 20-yard spacing around the actual shot.
+    const center=Math.floor(yards/20)*20;
+    return [center-20,center,center+20];
+  }
+
+  function yardToX(yards, marks){
+    // Marker x positions are 16%, 50%, 84%, i.e. 34% per 20 yards.
+    const [a,b,c]=marks;
+    let x;
+    if(yards<=b) x=16 + ((yards-a)/Math.max(1,b-a))*34;
+    else x=50 + ((yards-b)/Math.max(1,c-b))*34;
+    return Math.max(7,Math.min(93,x));
+  }
+
+  function hideObstructions(active){
+    const nodes=[...document.querySelectorAll('button,div,section,span')];
+    for(const el of nodes){
+      const txt=(el.textContent||'').trim().replace(/\s+/g,' ');
+      if(!txt)continue;
+      // Limit to compact controls; don't hide result text that happens to mention points.
+      if((txt.startsWith('RANGE SHOP') || txt.startsWith('VS BLAKE')) && txt.length<80){
+        const target=el.closest('button')||el;
+        target.classList.toggle('ld-result-hidden',active);
+      }
+    }
+  }
+
+  function animate(ball,shadow,spray,cup,holed,lipped,finalX){
+    const start=performance.now();
+    const duration=cup?2450:2200; // deliberately faster than v33.1
+
+    // Build the path relative to the real stopping position.
+    const fx=finalX/100;
+    const impact1=Math.max(.14,fx-.57);
+    const apex1=Math.max(.24,fx-.40);
+    const impact2=Math.max(.34,fx-.27);
+    const apex2=Math.max(.43,fx-.17);
+    const impact3=Math.max(.51,fx-.10);
+    const roll1=Math.max(.58,fx-.055);
+
+    const base=[
+      [0.00, Math.max(.05,impact1-.14), .18],
+      [.17, impact1, .69],
+      [.34, apex1, .39],
+      [.49, impact2, .69],
+      [.61, apex2, .53],
+      [.70, impact3, .69],
+      [.79, roll1, .635],
+      [1.00, fx, .69]
+    ];
+
+    const keys=base.map(v=>v.slice());
+    if(cup && lipped){
+      keys[keys.length-2][2]=.60;
+      keys[keys.length-1][0]=1;
+      keys[keys.length-1][1]=Math.min(.95,fx+.05);
+      keys[keys.length-1][2]=.69;
+    }
+
+    let impacted=false,clink=false;
+
+    function interp(p){
+      let a=keys[0],b=keys[keys.length-1];
+      for(let i=1;i<keys.length;i++){
+        if(p<=keys[i][0]){a=keys[i-1];b=keys[i];break}
+      }
+      const q=(p-a[0])/Math.max(.001,b[0]-a[0]);
+      // Smooth interpolation for travel, while the timing keys create sharper bounces.
+      const e=q*q*(3-2*q);
+      return [a[1]+(b[1]-a[1])*e,a[2]+(b[2]-a[2])*e];
+    }
+
+    function frame(now){
+      const p=Math.min(1,(now-start)/duration);
+      const [x,y]=interp(p);
+
+      ball.style.left=(x*100)+'%';
+      ball.style.top=(y*100)+'%';
+      ball.style.transform=`translate(-50%,-50%) rotate(${Math.round(p*1320)}deg)`;
+
+      shadow.style.left=(x*100)+'%';
+      shadow.style.top='70%';
+      const airborne=y<.59;
+      shadow.style.opacity=airborne?'.13':'.42';
+      shadow.style.transform=`translate(-50%,-50%) scale(${airborne?.66:1})`;
+
+      if(!impacted&&p>=.17){
+        impacted=true;
+        spray.style.left=(x*100)+'%';
+        spray.style.top='70%';
+        spray.classList.add('burst');
+        hitSound();
+      }
+
+      if(cup&&holed&&p>.94){
+        const z=Math.max(0,1-(p-.94)/.06);
+        ball.style.opacity=z;
+        ball.style.transform+=` scale(${.54+.46*z})`;
+        shadow.style.opacity=.31*z;
+        if(!clink){clink=true;cupSound()}
+      }
+
+      if(p<1)requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function install(cut){
+    if(seen.has(cut))return;
+    const oldBox=cut.querySelector('.ld-v331-box');
+    const stage=cut.querySelector('.landing-stage');
+    if(!stage || !oldBox)return;
+    seen.add(cut);
+    cut.classList.add('ld-v332');
+
+    const yards=parseYards(cut);
+    const marks=markerSet(yards);
+    const finalX=yardToX(yards,marks);
+
+    const cup=!!cut.querySelector('.stage-hole');
+    const holed=stage.classList.contains('holed');
+    const lipped=stage.classList.contains('lipped');
+
+    const box=document.createElement('div');
+    box.className='ld-v332-box '+(cup?'cup':'fairway');
+
+    // Reuse the exact approved v33.1 photographic replay background.
+    const oldPhoto=oldBox.querySelector('.ld-v331-photo');
+    const photo=document.createElement('div');
+    photo.className='ld-v332-photo';
+    if(oldPhoto) photo.style.backgroundImage=getComputedStyle(oldPhoto).backgroundImage;
+    box.appendChild(photo);
+
+    if(!cup){
+      const classes=['m1','m2','m3'];
+      marks.forEach((n,i)=>{
+        const m=document.createElement('span');
+        m.className='ld-v332-marker '+classes[i];
+        m.innerHTML='<strong>'+n+'</strong><small>YDS</small>';
+        box.appendChild(m);
+      });
+    }
+
+    const shadow=document.createElement('i');shadow.className='ld-v332-shadow';
+    const ball=document.createElement('b');ball.className='ld-v332-ball';
+    const spray=document.createElement('span');spray.className='ld-v332-spray';
+    spray.innerHTML='<i></i><i></i><i></i><i></i>';
+    const tag=document.createElement('div');tag.className='ld-v332-tag';
+    tag.textContent=cup?(holed?'HOLE-OUT REPLAY':lipped?'LIP-OUT REPLAY':'CUP REPLAY'):'LANDING REPLAY';
+
+    box.append(shadow,ball,spray,tag);
+    cut.appendChild(box);
+    requestAnimationFrame(()=>animate(ball,shadow,spray,cup,holed,lipped,finalX));
+    hideObstructions(true);
+  }
+
+  function scan(){
+    const cuts=document.querySelectorAll('.landing-cut');
+    cuts.forEach(install);
+    hideObstructions(cuts.length>0 || !!document.querySelector('.result-card'));
+  }
+
   const root=document.getElementById('root')||document.body;
   new MutationObserver(scan).observe(root,{childList:true,subtree:true});
   scan();
