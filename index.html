@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#07150d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="game-version" content="v33.4">
+  <meta name="game-version" content="v33.5">
 <script>(function(){var lastH=0,syncing=!1;function s(){var vv=(window.visualViewport&&window.visualViewport.height)||window.innerHeight,h=vv,sc=window.screen||{},sh=sc.height||0,sw=sc.width||0;if(sh>vv&&sh-vv<160&&sh>=sw)h=sh;if(h===lastH)return;lastH=h;document.documentElement.style.setProperty("--app-h",h+"px");if(!syncing){syncing=!0;setTimeout(function(){syncing=!1;try{window.dispatchEvent(new Event("resize"))}catch(e){}},60)}}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",function(){setTimeout(s,240)});if(window.visualViewport){window.visualViewport.addEventListener("resize",s);window.visualViewport.addEventListener("scroll",s)}window.addEventListener("load",function(){s();setTimeout(s,300);setTimeout(s,1200)});document.addEventListener("visibilitychange",s)})();</script>
   <style>:root { color-scheme: dark; }
 
@@ -543,7 +543,7 @@ button { font: inherit; }
 }
 
 .brand-lockup::after {
-  content: "v33.4";
+  content: "v33.5";
   position: absolute;
   left: calc(100% + 7px);
   bottom: -1px;
@@ -7014,14 +7014,18 @@ three/build/three.module.js:
   }
 
   function isExtremeEdge(cut){
-    // Reuse the game's landing-x custom property where available.
-    const raw=getComputedStyle(cut).getPropertyValue('--landing-x').trim();
-    const n=parseFloat(raw);
-    if(Number.isFinite(n)) return n<18 || n>82;
+    /*
+      v33.5: trigger from the game's ACTUAL OOB result instead of screen position.
+      The React game explicitly renders "OUT OF BOUNDS" in .landing-readout when
+      shot.isOutOfBounds is true, so this is deterministic and matches gameplay.
+    */
+    const readout=(cut.querySelector('.landing-readout > span')?.textContent||'')
+      .trim().toUpperCase();
+    if(readout==='OUT OF BOUNDS') return true;
 
-    // Fallback: infer from result marker/shot state if custom prop is unavailable.
-    const shell=cut.closest('.game-shell');
-    return shell?.classList.contains('oob') || shell?.classList.contains('out-of-bounds');
+    // Secondary fallback for any future markup changes.
+    const all=(cut.textContent||'').toUpperCase();
+    return all.includes('OUT OF BOUNDS');
   }
 
   function install(cut){
@@ -7067,6 +7071,20 @@ three/build/three.module.js:
   scan();
 })();
 </script>
+
+
+<style id="long-drive-v33-5-tree-fix">
+.landing-cut:has(.ld-tree-scene) .ld-v332-box,
+.landing-cut:has(.ld-tree-scene) .ld-v331-box,
+.landing-cut:has(.ld-tree-scene) .ld-v330-box,
+.landing-cut:has(.ld-tree-scene) .landing-stage {
+  display:none !important;
+}
+.ld-tree-caption::before {
+  content:"OOB EASTER EGG · ";
+  opacity:.62;
+}
+</style>
 
 </body>
 </html>
