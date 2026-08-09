@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#07150d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="game-version" content="v33.2">
+  <meta name="game-version" content="v33.4">
 <script>(function(){var lastH=0,syncing=!1;function s(){var vv=(window.visualViewport&&window.visualViewport.height)||window.innerHeight,h=vv,sc=window.screen||{},sh=sc.height||0,sw=sc.width||0;if(sh>vv&&sh-vv<160&&sh>=sw)h=sh;if(h===lastH)return;lastH=h;document.documentElement.style.setProperty("--app-h",h+"px");if(!syncing){syncing=!0;setTimeout(function(){syncing=!1;try{window.dispatchEvent(new Event("resize"))}catch(e){}},60)}}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",function(){setTimeout(s,240)});if(window.visualViewport){window.visualViewport.addEventListener("resize",s);window.visualViewport.addEventListener("scroll",s)}window.addEventListener("load",function(){s();setTimeout(s,300);setTimeout(s,1200)});document.addEventListener("visibilitychange",s)})();</script>
   <style>:root { color-scheme: dark; }
 
@@ -543,7 +543,7 @@ button { font: inherit; }
 }
 
 .brand-lockup::after {
-  content: "v33.2";
+  content: "v33.4";
   position: absolute;
   left: calc(100% + 7px);
   bottom: -1px;
@@ -6591,6 +6591,479 @@ three/build/three.module.js:
 
   const root=document.getElementById('root')||document.body;
   new MutationObserver(scan).observe(root,{childList:true,subtree:true});
+  scan();
+})();
+</script>
+
+
+<!-- LONG DRIVE v33.3 — separate achievements drawer -->
+<style id="long-drive-v33-3-achievements">
+/* Hide the long inline achievement list inside Range Shop. */
+.game-drawer .achievement-section.ld-achievements-moved {
+  display:none !important;
+}
+
+/* Compact Range Shop launcher, visually matching the Club Bag launcher. */
+.achievements-launch {
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:14px;
+  padding:15px 17px;
+  border:1px solid rgba(199,243,107,.44);
+  border-radius:16px;
+  background:rgba(35,70,41,.34);
+  color:#fff;
+  font:inherit;
+  text-align:left;
+  appearance:none;
+  -webkit-appearance:none;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+}
+.achievements-launch:active {
+  transform:scale(.99);
+}
+.achievements-launch span {
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.achievements-launch small {
+  color:#c7f36b;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.16em;
+}
+.achievements-launch strong {
+  color:#fff;
+  font-size:15px;
+  font-weight:900;
+}
+.achievements-launch b {
+  color:#c7f36b;
+  font-size:10px;
+  letter-spacing:.08em;
+  white-space:nowrap;
+}
+
+/* Dedicated achievements overlay. */
+.ld-achievements-shade {
+  position:fixed;
+  inset:0;
+  z-index:1200;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px 18px;
+  background:rgba(2,9,6,.72);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+.ld-achievements-drawer {
+  width:min(620px,100%);
+  max-height:min(78vh,760px);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  border:1px solid rgba(199,243,107,.30);
+  border-radius:24px;
+  background:linear-gradient(180deg,rgba(17,55,34,.98),rgba(6,31,19,.99));
+  color:#fff;
+  box-shadow:0 26px 70px rgba(0,0,0,.48);
+}
+.ld-achievements-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:20px 20px 16px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.ld-achievements-head span {
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.ld-achievements-head small {
+  color:#c7f36b;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.16em;
+}
+.ld-achievements-head strong {
+  font-size:22px;
+  font-weight:900;
+}
+.ld-achievements-head button {
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:14px;
+  background:rgba(255,255,255,.07);
+  color:#fff;
+  font-size:25px;
+  line-height:1;
+}
+.ld-achievements-progress {
+  padding:12px 20px;
+  color:#c7f36b;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.12em;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.ld-achievements-scroll {
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  padding:14px 18px 22px;
+}
+.ld-achievements-scroll .achievement-list {
+  display:grid !important;
+  grid-template-columns:1fr 1fr;
+  gap:10px !important;
+}
+.ld-achievements-scroll .achievement-list > span {
+  min-height:64px;
+}
+@media (max-width:520px) {
+  .ld-achievements-drawer {
+    max-height:82vh;
+  }
+  .ld-achievements-scroll .achievement-list {
+    grid-template-columns:1fr;
+  }
+}
+</style>
+
+<script id="long-drive-v33-3-achievements-script">
+(()=>{
+  let overlay=null;
+
+  function closeAchievements(){
+    if(overlay){
+      overlay.remove();
+      overlay=null;
+    }
+  }
+
+  function progressFrom(section){
+    const p=section?.querySelector('p')?.textContent||'ACHIEVEMENTS';
+    const match=p.match(/(\d+)\s*\/\s*(\d+)/);
+    return match ? {earned:match[1], total:match[2]} : {earned:'—',total:'—'};
+  }
+
+  function openAchievements(section){
+    closeAchievements();
+    const prog=progressFrom(section);
+    const sourceList=section.querySelector('.achievement-list');
+
+    overlay=document.createElement('div');
+    overlay.className='ld-achievements-shade';
+    overlay.setAttribute('role','presentation');
+
+    const drawer=document.createElement('section');
+    drawer.className='ld-achievements-drawer';
+    drawer.setAttribute('role','dialog');
+    drawer.setAttribute('aria-modal','true');
+    drawer.setAttribute('aria-label','Achievements');
+
+    const head=document.createElement('div');
+    head.className='ld-achievements-head';
+    head.innerHTML=
+      '<span><small>YOUR PROGRESS</small><strong>Achievements</strong></span>'+
+      '<button type="button" aria-label="Close achievements">×</button>';
+
+    const progress=document.createElement('div');
+    progress.className='ld-achievements-progress';
+    progress.textContent=prog.earned+' OF '+prog.total+' UNLOCKED';
+
+    const scroll=document.createElement('div');
+    scroll.className='ld-achievements-scroll';
+    if(sourceList){
+      scroll.appendChild(sourceList.cloneNode(true));
+    }
+
+    drawer.append(head,progress,scroll);
+    overlay.appendChild(drawer);
+    document.body.appendChild(overlay);
+
+    head.querySelector('button').addEventListener('click',closeAchievements);
+    overlay.addEventListener('pointerdown',e=>{
+      if(e.target===overlay) closeAchievements();
+    });
+  }
+
+  function install(){
+    const drawer=document.querySelector('.game-drawer');
+    const section=drawer?.querySelector('.achievement-section');
+    if(!drawer||!section)return;
+
+    const prog=progressFrom(section);
+    section.classList.add('ld-achievements-moved');
+
+    let button=drawer.querySelector('.achievements-launch');
+    if(!button){
+      button=document.createElement('button');
+      button.type='button';
+      button.className='achievements-launch';
+      button.innerHTML=
+        '<span><small>PROGRESS</small><strong>Achievements</strong></span>'+
+        '<b></b>';
+
+      // Place it immediately before Start New Game, after the scenery cards.
+      const newGame=drawer.querySelector('.new-game-button');
+      if(newGame) drawer.insertBefore(button,newGame);
+      else drawer.insertBefore(button,section);
+
+      button.addEventListener('click',()=>openAchievements(section));
+    }
+    button.querySelector('b').textContent=prog.earned+' / '+prog.total+' ›';
+  }
+
+  const root=document.getElementById('root')||document.body;
+  new MutationObserver(()=>{
+    install();
+    if(!document.querySelector('.game-drawer')) closeAchievements();
+  }).observe(root,{childList:true,subtree:true});
+
+  install();
+})();
+</script>
+
+
+<!-- LONG DRIVE v33.4 — EDGE MISS TREE EASTER EGG -->
+<style id="long-drive-v33-4-tree">
+.ld-tree-scene {
+  position:absolute;
+  inset:0;
+  z-index:40;
+  overflow:hidden;
+  background:
+    linear-gradient(180deg,rgba(4,12,8,.16),rgba(4,12,8,.04) 45%,rgba(3,10,6,.22)),
+    radial-gradient(ellipse at 50% 100%,rgba(0,0,0,.13),transparent 62%);
+  pointer-events:none;
+}
+.ld-tree-ground {
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:42%;
+  background:
+    linear-gradient(180deg,#3b6c34 0%,#244c28 58%,#17381f 100%);
+}
+.ld-tree-ground::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  opacity:.65;
+  background:
+    repeating-linear-gradient(88deg,rgba(255,255,255,.025) 0 2px,transparent 2px 7px),
+    repeating-linear-gradient(93deg,rgba(3,30,11,.08) 0 1px,transparent 1px 5px);
+}
+.ld-tree-trunk {
+  position:absolute;
+  right:16%;
+  bottom:18%;
+  width:18px;
+  height:210px;
+  transform-origin:50% 100%;
+  transform:rotate(0deg);
+  background:
+    linear-gradient(90deg,#4a2e1b,#7a4b2b 40%,#5b371f 70%,#3b2416);
+  border-radius:9px 9px 5px 5px;
+  box-shadow:4px 4px 10px rgba(0,0,0,.28);
+}
+.ld-tree-crown {
+  position:absolute;
+  right:9%;
+  bottom:38%;
+  width:128px;
+  height:150px;
+  transform-origin:50% 100%;
+  transform:rotate(0deg);
+  filter:drop-shadow(0 8px 9px rgba(0,0,0,.22));
+}
+.ld-tree-crown i {
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  width:0;height:0;
+  border-left:46px solid transparent;
+  border-right:46px solid transparent;
+  border-bottom:78px solid #163f22;
+}
+.ld-tree-crown i:nth-child(1){bottom:0}
+.ld-tree-crown i:nth-child(2){bottom:38px;border-left-width:40px;border-right-width:40px;border-bottom-width:68px;border-bottom-color:#1b4c28}
+.ld-tree-crown i:nth-child(3){bottom:73px;border-left-width:33px;border-right-width:33px;border-bottom-width:58px;border-bottom-color:#225a30}
+
+.ld-tree-wrap {
+  position:absolute;
+  inset:0;
+  transform-origin:84% 82%;
+}
+.ld-tree-wrap.shake {
+  animation:ld-tree-shake .42s ease-in-out both;
+}
+.ld-tree-wrap.fall {
+  animation:ld-tree-fall 1.15s cubic-bezier(.24,.58,.18,1) both;
+}
+@keyframes ld-tree-shake {
+  0%{transform:rotate(0)}
+  18%{transform:rotate(-2.3deg)}
+  36%{transform:rotate(2.0deg)}
+  58%{transform:rotate(-1.4deg)}
+  78%{transform:rotate(.8deg)}
+  100%{transform:rotate(0)}
+}
+@keyframes ld-tree-fall {
+  0%{transform:rotate(0)}
+  25%{transform:rotate(4deg)}
+  100%{transform:rotate(76deg) translate(14px,8px)}
+}
+
+.ld-tree-ball {
+  position:absolute;
+  z-index:45;
+  width:20px;height:20px;border-radius:50%;
+  background:radial-gradient(circle at 32% 28%,#fff 0 22%,#e5e9e6 58%,#9fa7a2 100%);
+  box-shadow:inset -2px -3px 4px rgba(0,0,0,.16),0 4px 8px rgba(0,0,0,.22);
+  left:8%;top:52%;
+  opacity:0;
+}
+.ld-tree-ball.go {
+  animation:ld-tree-ball 1.18s cubic-bezier(.16,.6,.25,1) both;
+}
+@keyframes ld-tree-ball {
+  0%{left:8%;top:52%;opacity:0;transform:scale(.78)}
+  5%{opacity:1}
+  55%{left:70%;top:58%;transform:scale(1)}
+  72%{left:81%;top:61%;transform:scale(1)}
+  78%{left:83%;top:60%;transform:scale(.98)}
+  100%{left:84%;top:68%;opacity:.15;transform:scale(.75)}
+}
+
+.ld-tree-impact {
+  position:absolute;
+  right:14%;
+  bottom:30%;
+  width:12px;height:12px;
+  opacity:0;
+}
+.ld-tree-impact.burst {
+  animation:ld-tree-impact .65s ease-out both;
+}
+.ld-tree-impact i {
+  position:absolute;
+  width:4px;height:12px;
+  background:#6c8c45;
+  border-radius:80% 0 80% 0;
+}
+.ld-tree-impact i:nth-child(1){transform:translate(-9px,-4px) rotate(-40deg)}
+.ld-tree-impact i:nth-child(2){transform:translate(8px,-8px) rotate(24deg)}
+.ld-tree-impact i:nth-child(3){transform:translate(2px,-14px) rotate(68deg)}
+.ld-tree-impact i:nth-child(4){transform:translate(-3px,-18px) rotate(-72deg)}
+@keyframes ld-tree-impact {
+  0%{opacity:0;transform:scale(.3)}
+  18%{opacity:1}
+  100%{opacity:0;transform:translate(-12px,-28px) scale(1.45) rotate(-28deg)}
+}
+.ld-tree-caption {
+  position:absolute;
+  left:50%;
+  bottom:8%;
+  transform:translateX(-50%);
+  z-index:48;
+  padding:7px 13px;
+  border-radius:999px;
+  background:rgba(4,16,9,.78);
+  border:1px solid rgba(255,255,255,.16);
+  color:#d5ff76;
+  font:900 9px/1 system-ui,-apple-system,sans-serif;
+  letter-spacing:.14em;
+  white-space:nowrap;
+}
+</style>
+
+<script id="long-drive-v33-4-tree-script">
+(()=>{
+  const seen=new WeakSet();
+
+  function audio(){
+    try{
+      const C=window.AudioContext||window.webkitAudioContext;
+      if(!C)return null;
+      const a=window.__ld334Audio||(window.__ld334Audio=new C({latencyHint:'interactive'}));
+      if(a.state!=='running'&&a.resume)a.resume().catch(()=>{});
+      return a;
+    }catch(e){return null}
+  }
+  ['pointerdown','touchstart','click'].forEach(ev=>document.addEventListener(ev,()=>audio(),{capture:true,passive:true}));
+
+  function tone(a,t,f1,f2,d,g,type='triangle'){
+    const o=a.createOscillator(),v=a.createGain();o.type=type;
+    o.frequency.setValueAtTime(f1,t);o.frequency.exponentialRampToValueAtTime(f2,t+d);
+    v.gain.setValueAtTime(.0001,t);v.gain.exponentialRampToValueAtTime(g,t+.006);v.gain.exponentialRampToValueAtTime(.0001,t+d);
+    o.connect(v);v.connect(a.destination);o.start(t);o.stop(t+d+.02);
+  }
+  function crash(){
+    const a=audio();if(!a)return;const t=a.currentTime+.01;
+    tone(a,t,180,75,.18,.045);
+    tone(a,t+.12,95,42,.32,.06);
+  }
+
+  function isExtremeEdge(cut){
+    // Reuse the game's landing-x custom property where available.
+    const raw=getComputedStyle(cut).getPropertyValue('--landing-x').trim();
+    const n=parseFloat(raw);
+    if(Number.isFinite(n)) return n<18 || n>82;
+
+    // Fallback: infer from result marker/shot state if custom prop is unavailable.
+    const shell=cut.closest('.game-shell');
+    return shell?.classList.contains('oob') || shell?.classList.contains('out-of-bounds');
+  }
+
+  function install(cut){
+    if(seen.has(cut) || !isExtremeEdge(cut)) return;
+    seen.add(cut);
+
+    // Don't replace cup replay.
+    if(cut.querySelector('.stage-hole')) return;
+
+    const scene=document.createElement('div');
+    scene.className='ld-tree-scene';
+    scene.innerHTML=
+      '<div class="ld-tree-ground"></div>'+
+      '<div class="ld-tree-wrap">'+
+        '<div class="ld-tree-trunk"></div>'+
+        '<div class="ld-tree-crown"><i></i><i></i><i></i></div>'+
+      '</div>'+
+      '<b class="ld-tree-ball"></b>'+
+      '<span class="ld-tree-impact"><i></i><i></i><i></i><i></i></span>'+
+      '<div class="ld-tree-caption">TREE TROUBLE</div>';
+
+    cut.appendChild(scene);
+
+    const ball=scene.querySelector('.ld-tree-ball');
+    const tree=scene.querySelector('.ld-tree-wrap');
+    const impact=scene.querySelector('.ld-tree-impact');
+
+    requestAnimationFrame(()=>ball.classList.add('go'));
+    setTimeout(()=>{
+      impact.classList.add('burst');
+      tree.classList.add('shake');
+      crash();
+    },820);
+    setTimeout(()=>{
+      tree.classList.remove('shake');
+      tree.classList.add('fall');
+    },1190);
+  }
+
+  function scan(){document.querySelectorAll('.landing-cut').forEach(install)}
+  const root=document.getElementById('root')||document.body;
+  new MutationObserver(scan).observe(root,{childList:true,subtree:true,attributes:true});
   scan();
 })();
 </script>
