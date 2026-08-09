@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#07150d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="game-version" content="v33.7">
+  <meta name="game-version" content="v33.8">
 <script>(function(){var lastH=0,syncing=!1;function s(){var vv=(window.visualViewport&&window.visualViewport.height)||window.innerHeight,h=vv,sc=window.screen||{},sh=sc.height||0,sw=sc.width||0;if(sh>vv&&sh-vv<160&&sh>=sw)h=sh;if(h===lastH)return;lastH=h;document.documentElement.style.setProperty("--app-h",h+"px");if(!syncing){syncing=!0;setTimeout(function(){syncing=!1;try{window.dispatchEvent(new Event("resize"))}catch(e){}},60)}}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",function(){setTimeout(s,240)});if(window.visualViewport){window.visualViewport.addEventListener("resize",s);window.visualViewport.addEventListener("scroll",s)}window.addEventListener("load",function(){s();setTimeout(s,300);setTimeout(s,1200)});document.addEventListener("visibilitychange",s)})();</script>
   <style>:root { color-scheme: dark; }
 
@@ -543,7 +543,7 @@ button { font: inherit; }
 }
 
 .brand-lockup::after {
-  content: "v33.7";
+  content: "v33.8";
   position: absolute;
   left: calc(100% + 7px);
   bottom: -1px;
@@ -7249,6 +7249,109 @@ three/build/three.module.js:
   const root=document.getElementById('root')||document.body;
   new MutationObserver(scan).observe(root,{childList:true,subtree:true});
   scan();
+})();
+</script>
+
+
+<!-- LONG DRIVE v33.8 — OOB stays on the main shot camera -->
+<style id="long-drive-v33-8-live-oob">
+/*
+  OOB no longer gets a separate replay/cutaway scene.
+  We leave the game's live course/camera visible and use only the existing
+  OOB readout/result UI on top of it.
+*/
+.game-shell.ld-oob-live.landing .game-canvas,
+.game-shell.ld-oob-live.landed .game-canvas,
+.game-shell.ld-oob-live.landing .fallback-ball,
+.game-shell.ld-oob-live.landed .fallback-ball {
+  opacity:1 !important;
+}
+
+/* Make the landing-cut itself transparent so it no longer replaces the live view. */
+.game-shell.ld-oob-live .landing-cut {
+  background:transparent !important;
+  animation:none !important;
+}
+.game-shell.ld-oob-live .landing-cut::before {
+  background:
+    linear-gradient(180deg,rgba(4,13,8,.14) 0%,transparent 36%,rgba(4,13,8,.18) 100%) !important;
+}
+
+/* Remove every replay/cutaway visual for OOB only. */
+.game-shell.ld-oob-live .landing-stage,
+.game-shell.ld-oob-live .landing-spot,
+.game-shell.ld-oob-live .ld-v326-turf,
+.game-shell.ld-oob-live .ld-v329-box,
+.game-shell.ld-oob-live .ld-v330-box,
+.game-shell.ld-oob-live .ld-v331-box,
+.game-shell.ld-oob-live .ld-v332-box,
+.game-shell.ld-oob-live .ld-tree-scene,
+.game-shell.ld-oob-live .ld-v336-tree,
+.game-shell.ld-oob-live .ld-v336-hit,
+.game-shell.ld-oob-live .ld-v336-ball {
+  display:none !important;
+}
+
+/* Keep only the useful OOB readout over the live shot. */
+.game-shell.ld-oob-live .landing-readout {
+  top:15.5% !important;
+  z-index:30 !important;
+}
+.game-shell.ld-oob-live .landing-comparison {
+  display:none !important;
+}
+
+/* Result card also sits over the main fairway instead of a replay scene. */
+.game-shell.ld-oob-live .result-card {
+  z-index:32 !important;
+}
+
+/* Keep top-center shop/rival controls out of the way during OOB result. */
+.game-shell.ld-oob-live .range-shop-chip,
+.game-shell.ld-oob-live .rival-chip {
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+</style>
+
+<script id="long-drive-v33-8-live-oob-script">
+(()=>{
+  function isOOB(cut){
+    const label=(cut?.querySelector('.landing-readout > span')?.textContent||'')
+      .trim().toUpperCase();
+    return label==='OUT OF BOUNDS' ||
+      ((cut?.textContent||'').toUpperCase().includes('OUT OF BOUNDS'));
+  }
+
+  function sync(){
+    const shell=document.querySelector('.game-shell');
+    if(!shell)return;
+
+    const cut=shell.querySelector('.landing-cut');
+    const active=!!cut && isOOB(cut);
+
+    shell.classList.toggle('ld-oob-live',active);
+
+    /*
+      Suppress legacy OOB Easter-egg nodes if an earlier script created them
+      before this observer ran.
+    */
+    if(active){
+      shell.querySelectorAll(
+        '.ld-tree-scene,.ld-v336-tree,.ld-v336-hit,.ld-v336-ball'
+      ).forEach(el=>el.remove());
+    }
+  }
+
+  const root=document.getElementById('root')||document.body;
+  new MutationObserver(sync).observe(root,{
+    childList:true,
+    subtree:true,
+    characterData:true,
+    attributes:true
+  });
+  sync();
 })();
 </script>
 
