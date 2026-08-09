@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#07150d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="game-version" content="v33.8">
+  <meta name="game-version" content="v33.9">
 <script>(function(){var lastH=0,syncing=!1;function s(){var vv=(window.visualViewport&&window.visualViewport.height)||window.innerHeight,h=vv,sc=window.screen||{},sh=sc.height||0,sw=sc.width||0;if(sh>vv&&sh-vv<160&&sh>=sw)h=sh;if(h===lastH)return;lastH=h;document.documentElement.style.setProperty("--app-h",h+"px");if(!syncing){syncing=!0;setTimeout(function(){syncing=!1;try{window.dispatchEvent(new Event("resize"))}catch(e){}},60)}}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",function(){setTimeout(s,240)});if(window.visualViewport){window.visualViewport.addEventListener("resize",s);window.visualViewport.addEventListener("scroll",s)}window.addEventListener("load",function(){s();setTimeout(s,300);setTimeout(s,1200)});document.addEventListener("visibilitychange",s)})();</script>
   <style>:root { color-scheme: dark; }
 
@@ -543,7 +543,7 @@ button { font: inherit; }
 }
 
 .brand-lockup::after {
-  content: "v33.8";
+  content: "v33.9";
   position: absolute;
   left: calc(100% + 7px);
   bottom: -1px;
@@ -7270,7 +7270,8 @@ three/build/three.module.js:
 /* Make the landing-cut itself transparent so it no longer replaces the live view. */
 .game-shell.ld-oob-live .landing-cut {
   background:transparent !important;
-  animation:none !important;
+  /* IMPORTANT: do not disable landing-cut animation.
+     The game uses its normal completion to advance to results. */
 }
 .game-shell.ld-oob-live .landing-cut::before {
   background:
@@ -7352,6 +7353,57 @@ three/build/three.module.js:
     attributes:true
   });
   sync();
+})();
+</script>
+
+
+<!-- LONG DRIVE v33.9 — OOB state-transition repair -->
+<style id="long-drive-v33-9-oob-repair">
+/* Never let the v33.8 helper class disable controls after landing is finished. */
+.game-shell:not(.landing).ld-oob-live .range-shop-chip,
+.game-shell:not(.landing).ld-oob-live .rival-chip {
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+}
+
+/* During the actual OOB landing moment, keep the center clear as intended. */
+.game-shell.landing.ld-oob-live .range-shop-chip,
+.game-shell.landing.ld-oob-live .rival-chip {
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+</style>
+
+<script id="long-drive-v33-9-oob-repair-script">
+(()=>{
+  function repair(){
+    const shell=document.querySelector('.game-shell');
+    if(!shell)return;
+
+    /*
+      v33.8's visual helper should exist only while the OOB landing overlay exists.
+      Once the game advances out of .landing, release interactive controls even if
+      React keeps the landing DOM around briefly during its transition.
+    */
+    if(shell.classList.contains('ld-oob-live') && !shell.classList.contains('landing')){
+      shell.querySelectorAll('.range-shop-chip,.rival-chip').forEach(el=>{
+        el.style.pointerEvents='';
+        el.style.visibility='';
+        el.style.opacity='';
+      });
+    }
+  }
+
+  const root=document.getElementById('root')||document.body;
+  new MutationObserver(repair).observe(root,{
+    childList:true,
+    subtree:true,
+    attributes:true,
+    attributeFilter:['class']
+  });
+  repair();
 })();
 </script>
 
