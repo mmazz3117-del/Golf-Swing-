@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#07150d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="game-version" content="v36.3">
+  <meta name="game-version" content="v36.4">
 <script>(function(){var lastH=0,syncing=!1;function s(){var vv=(window.visualViewport&&window.visualViewport.height)||window.innerHeight,h=vv,sc=window.screen||{},sh=sc.height||0,sw=sc.width||0;if(sh>vv&&sh-vv<160&&sh>=sw)h=sh;if(h===lastH)return;lastH=h;document.documentElement.style.setProperty("--app-h",h+"px");if(!syncing){syncing=!0;setTimeout(function(){syncing=!1;try{window.dispatchEvent(new Event("resize"))}catch(e){}},60)}}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",function(){setTimeout(s,240)});if(window.visualViewport){window.visualViewport.addEventListener("resize",s);window.visualViewport.addEventListener("scroll",s)}window.addEventListener("load",function(){s();setTimeout(s,300);setTimeout(s,1200)});document.addEventListener("visibilitychange",s)})();</script>
   <style>:root { color-scheme: dark; }
 
@@ -543,7 +543,7 @@ button { font: inherit; }
 }
 
 .brand-lockup::after {
-  content: "v36.3";
+  content: "v36.4";
   position: absolute;
   left: calc(100% + 7px);
   bottom: -1px;
@@ -2122,6 +2122,21 @@ html, body { height: var(--app-h, 100%) !important; }
 /* Do not alter the approved image's photographic rendering. */
 .scene-range .scene-world {
   filter: none !important;
+}
+</style>
+
+
+<style id="long-drive-v36-4-range-camera-fix">
+/* Driving Range has geometric targets baked into the approved photograph.
+   Disable the duplicate masked depth copies only for this scene so the
+   flight camera cannot pull the same circles apart at different scales. */
+.game-shell.scene-range .scene-depth-middle,
+.game-shell.scene-range .scene-depth-near {
+  display: none !important;
+}
+.game-shell.scene-range .scene-depth-far {
+  display: block !important;
+  transform-origin: 50% 58% !important;
 }
 </style>
 
