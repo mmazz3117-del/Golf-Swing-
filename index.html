@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#07150d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="game-version" content="v37.0">
+  <meta name="game-version" content="v37.1">
 <script>(function(){var lastH=0,syncing=!1;function s(){var vv=(window.visualViewport&&window.visualViewport.height)||window.innerHeight,h=vv,sc=window.screen||{},sh=sc.height||0,sw=sc.width||0;if(sh>vv&&sh-vv<160&&sh>=sw)h=sh;if(h===lastH)return;lastH=h;document.documentElement.style.setProperty("--app-h",h+"px");if(!syncing){syncing=!0;setTimeout(function(){syncing=!1;try{window.dispatchEvent(new Event("resize"))}catch(e){}},60)}}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",function(){setTimeout(s,240)});if(window.visualViewport){window.visualViewport.addEventListener("resize",s);window.visualViewport.addEventListener("scroll",s)}window.addEventListener("load",function(){s();setTimeout(s,300);setTimeout(s,1200)});document.addEventListener("visibilitychange",s)})();</script>
   <style>:root { color-scheme: dark; }
 
@@ -543,7 +543,7 @@ button { font: inherit; }
 }
 
 .brand-lockup::after {
-  content: "v37.0";
+  content: "v37.1";
   position: absolute;
   left: calc(100% + 7px);
   bottom: -1px;
@@ -2205,6 +2205,111 @@ body.ld-focus-on.ld-idle #ld-info-toggle{opacity:.94;visibility:visible;pointer-
 @keyframes stage-ball-holed-v370{0%{transform:translate(0,-168px) rotate(0);opacity:1}12%{transform:translate(64px,0) rotate(230deg)}24%{transform:translate(128px,-54px) rotate(450deg)}35%{transform:translate(177px,0) rotate(620deg)}44%{transform:translate(213px,-21px) rotate(750deg)}52%{transform:translate(241px,0) rotate(850deg)}58%{transform:translate(256px,-7px) rotate(905deg)}64%{transform:translate(266px,0) rotate(940deg)}83%{transform:translate(280px,0) rotate(1000deg);opacity:1}90%{transform:translate(287px,0) rotate(1025deg) scale(1);opacity:1}94%{transform:translate(287px,4px) rotate(1037deg) scale(.88);opacity:1}97%{transform:translate(287px,11px) rotate(1044deg) scale(.66);opacity:.84}100%{transform:translate(287px,27px) rotate(1050deg) scale(.24);opacity:0}}
 .landing-stage.holed .hole-cup{animation:cup-catch-v370 .46s 2.94s ease-out both!important}
 @keyframes cup-catch-v370{0%{transform:scale(1)}35%{transform:scale(1.15,.84);box-shadow:0 0 0 6px rgba(199,243,107,.17),inset 0 3px 5px rgba(0,0,0,.96)}100%{transform:scale(1)}}
+</style>
+
+
+<style id="long-drive-v37-1-target-cup-fix">
+/* ===========================================================
+   1) TARGET-SCENE CAMERA FIX
+   Driving Range already needed a single photographic layer.
+   Downtown Rooftop has the same geometric-target problem.
+   Using one layer prevents rings, flags, tee/ball artwork and
+   yardage boards from separating into ghost copies in flight.
+   =========================================================== */
+.game-shell.scene-range .scene-depth-middle,
+.game-shell.scene-range .scene-depth-near,
+.game-shell.scene-rooftop .scene-depth-middle,
+.game-shell.scene-rooftop .scene-depth-near {
+  display: none !important;
+}
+
+.game-shell.scene-range .scene-depth-far,
+.game-shell.scene-rooftop .scene-depth-far {
+  display: block !important;
+  transform-origin: 50% 58% !important;
+}
+
+/* Do not let scene-specific pseudo overlays create a second target copy. */
+.game-shell.scene-range .scene-window::after,
+.game-shell.scene-rooftop .scene-window::after {
+  content: none !important;
+}
+
+/* ===========================================================
+   2) TRUE CUP ENTRY
+   v37.0 had the ball left edge aligned to cup center, leaving
+   its actual center ~11px to the right. Center the 22px ball
+   correctly, then sink it behind the cup rim.
+   =========================================================== */
+.landing-stage.hole .stage-hole {
+  left: calc(4% + 287px) !important;
+  bottom: 0 !important;
+  height: 122px !important;
+  width: 0 !important;
+  overflow: visible !important;
+}
+
+.landing-stage.hole .hole-cup {
+  left: -18px !important;
+  bottom: 50px !important;
+  width: 36px !important;
+  height: 11px !important;
+}
+
+/* On a made shot, the cup/flag layer sits in front of the ball
+   so the ball visibly disappears under the near rim. */
+.landing-stage.holed .stage-hole {
+  z-index: 6 !important;
+}
+.landing-stage.holed .stage-ball {
+  z-index: 5 !important;
+  animation: stage-ball-holed-v371 3.12s .12s both !important;
+  transform-origin: 50% 50% !important;
+}
+
+@keyframes stage-ball-holed-v371 {
+  0%   { transform:translate(0,-168px) rotate(0); opacity:1; animation-timing-function:ease-in; }
+  12%  { transform:translate(64px,0) rotate(230deg); animation-timing-function:ease-out; }
+  24%  { transform:translate(128px,-54px) rotate(450deg); animation-timing-function:ease-in; }
+  35%  { transform:translate(177px,0) rotate(620deg); animation-timing-function:ease-out; }
+  44%  { transform:translate(213px,-21px) rotate(750deg); animation-timing-function:ease-in; }
+  52%  { transform:translate(241px,0) rotate(850deg); animation-timing-function:ease-out; }
+  58%  { transform:translate(256px,-7px) rotate(905deg); animation-timing-function:ease-in; }
+  64%  { transform:translate(266px,0) rotate(940deg); animation-timing-function:cubic-bezier(.15,.5,.4,1); }
+
+  /* Cup center is 287px from the start. A 22px ball must have
+     its LEFT edge at 276px for its CENTER to be at 287px. */
+  82%  { transform:translate(272px,0) rotate(988deg); opacity:1; }
+  89%  { transform:translate(276px,0) rotate(1018deg) scale(1); opacity:1; }
+  93%  { transform:translate(276px,5px) rotate(1032deg) scale(.94); opacity:1; }
+  96%  { transform:translate(276px,11px) rotate(1040deg) scale(.76); opacity:.92; }
+
+  /* Sink below the lip instead of stopping on the surface. */
+  100% { transform:translate(276px,30px) rotate(1050deg) scale(.18); opacity:0; }
+}
+
+.landing-stage.holed .stage-shadow {
+  animation: stage-shadow-holed-v371 3.12s .12s both !important;
+}
+@keyframes stage-shadow-holed-v371 {
+  0%   { transform:translate(0,0) scale(.45); opacity:.14; }
+  12%  { transform:translate(64px,0) scale(1.06); opacity:.55; }
+  35%  { transform:translate(177px,0) scale(1.04); opacity:.55; }
+  64%  { transform:translate(266px,0) scale(1); opacity:.50; }
+  89%  { transform:translate(276px,0) scale(.82); opacity:.30; }
+  96%  { transform:translate(276px,0) scale(.38); opacity:.12; }
+  100% { transform:translate(276px,0) scale(.08); opacity:0; }
+}
+
+/* Slightly emphasize the catch without changing the existing sound timing. */
+.landing-stage.holed .hole-cup {
+  animation: cup-catch-v371 .46s 2.94s ease-out both !important;
+}
+@keyframes cup-catch-v371 {
+  0%   { transform:scale(1); }
+  35%  { transform:scale(1.16,.82); }
+  100% { transform:scale(1); }
+}
 </style>
 
 </head>
