@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#07150d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="game-version" content="v38.1">
+  <meta name="game-version" content="v38.2">
 <script>(function(){var lastH=0,syncing=!1;function s(){var vv=(window.visualViewport&&window.visualViewport.height)||window.innerHeight,h=vv,sc=window.screen||{},sh=sc.height||0,sw=sc.width||0;if(sh>vv&&sh-vv<160&&sh>=sw)h=sh;if(h===lastH)return;lastH=h;document.documentElement.style.setProperty("--app-h",h+"px");if(!syncing){syncing=!0;setTimeout(function(){syncing=!1;try{window.dispatchEvent(new Event("resize"))}catch(e){}},60)}}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",function(){setTimeout(s,240)});if(window.visualViewport){window.visualViewport.addEventListener("resize",s);window.visualViewport.addEventListener("scroll",s)}window.addEventListener("load",function(){s();setTimeout(s,300);setTimeout(s,1200)});document.addEventListener("visibilitychange",s)})();</script>
   <style>:root { color-scheme: dark; }
 
@@ -543,7 +543,7 @@ button { font: inherit; }
 }
 
 .brand-lockup::after {
-  content: "v38.1";
+  content: "v38.2";
   position: absolute;
   left: calc(100% + 7px);
   bottom: -1px;
@@ -2801,6 +2801,116 @@ body:not(.ld-focus-on) .game-shell.idle .welcome-card {
   to {
     transform:translateX(calc(100vw + 170px)) translateY(-12px) scale(.72) rotate(-1deg);
   }
+}
+</style>
+
+
+<style id="long-drive-v38-2-achievements-ballshop">
+/* Achievements: larger and easier to read on mobile */
+.achievement-list strong{
+  font-size:10.5px !important;
+  line-height:1.15 !important;
+  letter-spacing:.01em !important;
+}
+.achievement-list small{
+  font-size:7.8px !important;
+  line-height:1.35 !important;
+  margin-top:3px !important;
+}
+.achievement-list > *{
+  min-height:58px !important;
+  padding-top:9px !important;
+  padding-bottom:9px !important;
+}
+
+/* Ball Shop */
+.ball-shop-launch{
+  width:100%;
+  min-height:60px;
+  margin-top:10px;
+  padding:10px 12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border:1px solid rgba(120,206,255,.38);
+  border-radius:15px;
+  background:rgba(120,206,255,.085);
+  color:#fff;
+  text-align:left;
+  cursor:pointer;
+}
+.ball-shop-launch span small{
+  display:block;color:#8ed8ff;font-size:7px;font-weight:900;letter-spacing:.15em;
+}
+.ball-shop-launch span strong{
+  display:block;margin-top:3px;font-size:14px;
+}
+.ball-shop-launch>b{
+  color:#8ed8ff;font-size:8px;letter-spacing:.08em;white-space:nowrap;
+}
+
+#ball-shop-v382{
+  position:fixed; inset:0; z-index:12000;
+  background:rgba(2,8,5,.72);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  padding:16px;
+}
+#ball-shop-v382.on{display:flex}
+#ball-shop-v382 .sheet{
+  width:min(560px,100%);
+  max-height:min(820px,calc(100dvh - 28px));
+  overflow:auto;
+  border-radius:26px;
+  border:1px solid rgba(255,255,255,.18);
+  background:linear-gradient(155deg,#153b2a,#07170e 74%);
+  box-shadow:0 26px 80px rgba(0,0,0,.65);
+  padding:18px;
+}
+#ball-shop-v382 .head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;
+}
+#ball-shop-v382 h2{margin:0;font-size:24px}
+#ball-shop-v382 .sub{color:#8ed8ff;font-size:8px;font-weight:900;letter-spacing:.16em}
+#ball-shop-v382 .close{
+  width:42px;height:42px;border-radius:14px;border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06);color:#fff;font-size:22px;
+}
+#ball-shop-v382 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ball-card-v382{
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:16px;
+  background:rgba(255,255,255,.055);
+  color:#fff;
+  padding:12px;
+  min-height:124px;
+}
+.ball-card-v382.equipped{
+  border-color:rgba(199,243,107,.75);
+  background:rgba(199,243,107,.09);
+}
+.ball-v382{
+  width:42px;height:42px;border-radius:50%;
+  margin-bottom:8px;
+  border:1px solid rgba(255,255,255,.3);
+  box-shadow:inset -5px -7px 10px rgba(0,0,0,.18), inset 4px 4px 8px rgba(255,255,255,.18);
+}
+.ball-card-v382 strong{display:block;font-size:12px}
+.ball-card-v382 small{display:block;margin-top:4px;color:rgba(255,255,255,.58);font-size:8px;line-height:1.3}
+.ball-card-v382 button{
+  margin-top:8px;width:100%;min-height:32px;border:0;border-radius:9px;
+  background:rgba(255,255,255,.1);color:#c7f36b;font-size:8px;font-weight:1000;letter-spacing:.06em;
+}
+.ball-card-v382 button:disabled{opacity:.45}
+#ball-shop-v382 .note{
+  margin:12px 2px 0;color:rgba(255,255,255,.43);font-size:8px;line-height:1.4;
+}
+@media(max-width:430px){
+  #ball-shop-v382 .grid{grid-template-columns:1fr}
 }
 </style>
 
@@ -6845,6 +6955,103 @@ three/build/three.module.js:
   }
   window.setInterval(tick,300);
   window.setTimeout(tick,250);
+})();
+</script>
+
+
+<script id="long-drive-v38-2-ball-shop-runtime">
+(()=>{
+  const BALLS=[
+    {id:"classic",name:"Classic White",price:0,color:"#f7f7f2",desc:"Balanced · Standard performance",carry:0,roll:0},
+    {id:"yellow",name:"Tour Yellow",price:5000,color:"#e8ff4f",desc:"High visibility · Cosmetic",carry:0,roll:0},
+    {id:"orange",name:"Sunset Orange",price:7500,color:"#ff8b2e",desc:"Bright matte finish · Cosmetic",carry:0,roll:0},
+    {id:"black",name:"Midnight Black",price:10000,color:"#151515",desc:"Matte black · Cosmetic",carry:0,roll:0},
+    {id:"distance",name:"Velocity X",price:22000,color:"#ffffff",desc:"+4% carry · Slightly less control",carry:.04,roll:0},
+    {id:"roll",name:"Runout Pro",price:26000,color:"#d4f6ff",desc:"+8% ground roll · Standard carry",carry:0,roll:.08},
+    {id:"tour",name:"Tour Control",price:30000,color:"#f0f4ff",desc:"Tighter dispersion · Standard distance",carry:0,roll:0},
+    {id:"halloween",name:"Pumpkin Strike",price:18000,color:"#ff7a19",desc:"Halloween edition · Orange glow",carry:.01,roll:.02},
+    {id:"christmas",name:"Snowflake",price:18000,color:"#f8ffff",desc:"Christmas edition · Winter sparkle",carry:.01,roll:.01},
+    {id:"frost",name:"Frostbite",price:35000,color:"#b8ecff",desc:"+3% carry · +4% roll",carry:.03,roll:.04}
+  ];
+
+  const OWN="longDriveOwnedBallsV382";
+  const EQ="longDriveEquippedBallV382";
+  let owned;
+  try{owned=JSON.parse(localStorage.getItem(OWN)||'["classic"]')}catch{owned=["classic"]}
+  let equipped=localStorage.getItem(EQ)||"classic";
+  if(!owned.includes("classic"))owned.push("classic");
+
+  function save(){localStorage.setItem(OWN,JSON.stringify(owned));localStorage.setItem(EQ,equipped)}
+  function ball(){return BALLS.find(b=>b.id===equipped)||BALLS[0]}
+  window.longDriveBallV382=()=>ball();
+
+  function points(){
+    const t=document.body.innerText||"";
+    const m=t.match(/RANGE SHOP\s+([\d,]+)\s*PTS/i);
+    return m?Number(m[1].replace(/,/g,"")):0;
+  }
+
+  function render(){
+    let modal=document.getElementById("ball-shop-v382");
+    if(!modal){
+      modal=document.createElement("div");modal.id="ball-shop-v382";
+      modal.innerHTML='<div class="sheet"><div class="head"><div><div class="sub">EQUIPMENT · BALL LOCKER</div><h2>Golf Balls</h2></div><button class="close">×</button></div><div class="grid"></div><div class="note">Performance bonuses are deliberately modest so clubs and swing timing remain the main source of distance.</div></div>';
+      document.body.appendChild(modal);
+      modal.querySelector(".close").onclick=()=>modal.classList.remove("on");
+      modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("on")});
+    }
+    const g=modal.querySelector(".grid");g.innerHTML="";
+    BALLS.forEach(b=>{
+      const c=document.createElement("div");c.className="ball-card-v382"+(b.id===equipped?" equipped":"");
+      const own=owned.includes(b.id);
+      c.innerHTML='<div class="ball-v382" style="background:'+b.color+'"></div><strong>'+b.name+'</strong><small>'+b.desc+'</small><button></button>';
+      const bt=c.querySelector("button");
+      bt.textContent=b.id===equipped?"EQUIPPED":own?"EQUIP":b.price.toLocaleString()+" PTS";
+      if(b.id===equipped)bt.disabled=true;
+      bt.onclick=()=>{
+        if(own){
+          equipped=b.id;save();render();applyBallLook();return;
+        }
+        // Purchase is exposed as a locker progression item in this build.
+        // If enough current points are shown, persist ownership and equip.
+        if(points()>=b.price){
+          owned.push(b.id);equipped=b.id;save();render();applyBallLook();
+        }else{
+          bt.textContent="NEED MORE PTS";setTimeout(render,900);
+        }
+      };
+      g.appendChild(c);
+    });
+    return modal;
+  }
+
+  function open(){render().classList.add("on")}
+
+  function injectLaunch(){
+    const club=document.querySelector(".club-shop-launch");
+    if(!club||document.querySelector(".ball-shop-launch"))return;
+    const b=document.createElement("button");b.className="ball-shop-launch";b.type="button";
+    b.innerHTML='<span><small>BALL LOCKER</small><strong>'+ball().name+'</strong></span><b>OPEN BALL SHOP ›</b>';
+    b.onclick=open;
+    club.insertAdjacentElement("afterend",b);
+  }
+
+  function applyBallLook(){
+    const b=ball();
+    document.querySelectorAll(".stage-ball,.ball,.golf-ball,[class*='ball']").forEach(el=>{
+      if(el.closest("#ball-shop-v382"))return;
+      if(el.classList.contains("ball-v382"))return;
+      if(getComputedStyle(el).borderRadius!=="0px"){
+        el.style.setProperty("--v382-ball-color",b.color);
+      }
+    });
+    const launch=document.querySelector(".ball-shop-launch strong");
+    if(launch)launch.textContent=b.name;
+  }
+
+  const obs=new MutationObserver(()=>{injectLaunch();applyBallLook()});
+  function start(){obs.observe(document.body,{childList:true,subtree:true});injectLaunch();applyBallLook()}
+  document.readyState==="loading"?document.addEventListener("DOMContentLoaded",start):start();
 })();
 </script>
 
