@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#07150d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="game-version" content="v36.9">
+  <meta name="game-version" content="v37.0">
 <script>(function(){var lastH=0,syncing=!1;function s(){var vv=(window.visualViewport&&window.visualViewport.height)||window.innerHeight,h=vv,sc=window.screen||{},sh=sc.height||0,sw=sc.width||0;if(sh>vv&&sh-vv<160&&sh>=sw)h=sh;if(h===lastH)return;lastH=h;document.documentElement.style.setProperty("--app-h",h+"px");if(!syncing){syncing=!0;setTimeout(function(){syncing=!1;try{window.dispatchEvent(new Event("resize"))}catch(e){}},60)}}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",function(){setTimeout(s,240)});if(window.visualViewport){window.visualViewport.addEventListener("resize",s);window.visualViewport.addEventListener("scroll",s)}window.addEventListener("load",function(){s();setTimeout(s,300);setTimeout(s,1200)});document.addEventListener("visibilitychange",s)})();</script>
   <style>:root { color-scheme: dark; }
 
@@ -543,7 +543,7 @@ button { font: inherit; }
 }
 
 .brand-lockup::after {
-  content: "v36.9";
+  content: "v37.0";
   position: absolute;
   left: calc(100% + 7px);
   bottom: -1px;
@@ -2190,140 +2190,21 @@ html, body { height: var(--app-h, 100%) !important; }
 </style>
 
 
-<style id="long-drive-v36-9-focus-hole">
-/* ===== Scenery focus mode =====
-   After 5 seconds of idle, collapse the center info stack so the scene can breathe.
-*/
-.challenge-chip,
-.streak-chip,
-.welcome-card {
-  transition: opacity .28s ease, transform .28s ease, filter .28s ease;
-}
-
-.game-shell.scenery-focus.idle .challenge-chip,
-.game-shell.scenery-focus.idle .streak-chip,
-.game-shell.scenery-focus.idle .welcome-card {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  filter: blur(2px);
-}
-
-.game-shell.scenery-focus.idle .challenge-chip {
-  transform: translate(-50%, -10px) scale(.96) !important;
-}
-.game-shell.scenery-focus.idle .streak-chip {
-  transform: translate(-50%, -10px) scale(.96) !important;
-}
-.game-shell.scenery-focus.idle .welcome-card {
-  transform: translate(-50%, -8px) scale(.98) !important;
-}
-
-#scene-info-toggle {
-  position: fixed;
-  z-index: 9999;
-  top: max(205px, calc(env(safe-area-inset-top) + 185px));
-  left: 50%;
-  transform: translateX(-50%);
-  min-width: 78px;
-  height: 29px;
-  padding: 0 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(199,243,107,.42);
-  background: rgba(5,20,13,.76);
-  color: #d9ff88;
-  font-size: 8px;
-  font-weight: 1000;
-  letter-spacing: .12em;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 6px 18px rgba(0,0,0,.22);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity .2s ease, transform .2s ease;
-}
-body.scene-info-ready #scene-info-toggle {
-  opacity: .92;
-  visibility: visible;
-  pointer-events: auto;
-}
-body:not(.scene-info-idle) #scene-info-toggle {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-/* ===== Correct hole geometry =====
-   Put the cup rim on the actual turf surface, make it wide enough for the ball,
-   and align the ball's center to the center of the cup.
-*/
-.landing-stage.hole .stage-hole {
-  left: calc(4% + 300px) !important;
-  bottom: 0 !important;
-  height: 122px !important;
-  width: 0 !important;
-  overflow: visible !important;
-}
-
-.landing-stage.hole .hole-cup {
-  left: -16px !important;
-  bottom: 50px !important;
-  width: 32px !important;
-  height: 10px !important;
-  border-radius: 50% !important;
-  background:
-    radial-gradient(ellipse at 50% 38%, #020805 0 56%, #0a1c0f 60%, #24482b 100%) !important;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.25),
-    0 0 0 1px rgba(0,0,0,.28),
-    inset 0 3px 4px rgba(0,0,0,.95) !important;
-}
-
-.landing-stage.hole .hole-pole {
-  left: -1px !important;
-  bottom: 55px !important;
-  height: 66px !important;
-}
-
-.landing-stage.hole .hole-flag {
-  left: 1px !important;
-  bottom: 108px !important;
-}
-
-/* Successful hole-out path:
-   stage ball starts at 4%; the cup center is 300px from that origin.
-   Since the ball is 26px wide, translating its left edge 287px centers it at 300.
-*/
-.landing-stage.holed .stage-ball {
-  animation: stage-ball-holed-v369 3.12s .12s both !important;
-  transform-origin: 50% 50% !important;
-  z-index: 3 !important;
-}
-
-@keyframes stage-ball-holed-v369 {
-  0%   { transform: translate(0,-168px) rotate(0); opacity:1; animation-timing-function:ease-in; }
-  12%  { transform: translate(64px,0) rotate(230deg); animation-timing-function:ease-out; }
-  24%  { transform: translate(128px,-54px) rotate(450deg); animation-timing-function:ease-in; }
-  35%  { transform: translate(177px,0) rotate(620deg); animation-timing-function:ease-out; }
-  44%  { transform: translate(213px,-21px) rotate(750deg); animation-timing-function:ease-in; }
-  52%  { transform: translate(241px,0) rotate(850deg); animation-timing-function:ease-out; }
-  58%  { transform: translate(256px,-7px) rotate(905deg); animation-timing-function:ease-in; }
-  64%  { transform: translate(266px,0) rotate(940deg); animation-timing-function:cubic-bezier(.15,.5,.4,1); }
-  83%  { transform: translate(282px,0) rotate(1000deg); opacity:1; animation-timing-function:ease-out; }
-  90%  { transform: translate(287px,0) rotate(1025deg) scale(1); opacity:1; }
-  94%  { transform: translate(287px,4px) rotate(1037deg) scale(.88); opacity:1; }
-  97%  { transform: translate(287px,10px) rotate(1044deg) scale(.67); opacity:.86; }
-  100% { transform: translate(287px,24px) rotate(1050deg) scale(.28); opacity:0; }
-}
-
-.landing-stage.holed .hole-cup {
-  animation: cup-catch-v369 .46s 2.94s ease-out both !important;
-}
-@keyframes cup-catch-v369 {
-  0%   { transform: scale(1); }
-  35%  { transform: scale(1.13,.86); box-shadow:0 0 0 6px rgba(199,243,107,.16),inset 0 3px 4px rgba(0,0,0,.95); }
-  100% { transform: scale(1); }
-}
+<style id="long-drive-v37-safe-focus-cup">
+.challenge-chip,.streak-chip,.welcome-card{transition:opacity .28s ease,transform .28s ease,filter .28s ease}
+body.ld-focus-on .game-shell.idle .challenge-chip,
+body.ld-focus-on .game-shell.idle .streak-chip,
+body.ld-focus-on .game-shell.idle .welcome-card{opacity:0!important;pointer-events:none!important;filter:blur(1.5px);transform:translateY(-8px) scale(.97)!important}
+#ld-info-toggle{position:fixed;z-index:9999;top:max(218px,calc(env(safe-area-inset-top) + 198px));left:50%;transform:translateX(-50%);height:30px;min-width:84px;padding:0 13px;border-radius:999px;border:1px solid rgba(199,243,107,.44);background:rgba(5,20,13,.78);color:#d9ff88;font:900 9px/1 system-ui,-apple-system,sans-serif;letter-spacing:.11em;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 6px 18px rgba(0,0,0,.22);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease}
+body.ld-focus-on.ld-idle #ld-info-toggle{opacity:.94;visibility:visible;pointer-events:auto}
+.landing-stage.hole .stage-hole{left:calc(4% + 287px)!important;bottom:0!important;height:122px!important;width:0!important;overflow:visible!important}
+.landing-stage.hole .hole-cup{left:-18px!important;bottom:50px!important;width:36px!important;height:11px!important;border-radius:50%!important;background:radial-gradient(ellipse at 50% 38%,#020805 0 56%,#0a1c0f 60%,#24482b 100%)!important;box-shadow:0 1px 0 rgba(255,255,255,.24),0 0 0 1px rgba(0,0,0,.3),inset 0 3px 5px rgba(0,0,0,.96)!important}
+.landing-stage.hole .hole-pole{left:-1px!important;bottom:56px!important;height:66px!important}
+.landing-stage.hole .hole-flag{left:1px!important;bottom:109px!important}
+.landing-stage.holed .stage-ball{animation:stage-ball-holed-v370 3.12s .12s both!important;transform-origin:50% 50%!important;z-index:3!important}
+@keyframes stage-ball-holed-v370{0%{transform:translate(0,-168px) rotate(0);opacity:1}12%{transform:translate(64px,0) rotate(230deg)}24%{transform:translate(128px,-54px) rotate(450deg)}35%{transform:translate(177px,0) rotate(620deg)}44%{transform:translate(213px,-21px) rotate(750deg)}52%{transform:translate(241px,0) rotate(850deg)}58%{transform:translate(256px,-7px) rotate(905deg)}64%{transform:translate(266px,0) rotate(940deg)}83%{transform:translate(280px,0) rotate(1000deg);opacity:1}90%{transform:translate(287px,0) rotate(1025deg) scale(1);opacity:1}94%{transform:translate(287px,4px) rotate(1037deg) scale(.88);opacity:1}97%{transform:translate(287px,11px) rotate(1044deg) scale(.66);opacity:.84}100%{transform:translate(287px,27px) rotate(1050deg) scale(.24);opacity:0}}
+.landing-stage.holed .hole-cup{animation:cup-catch-v370 .46s 2.94s ease-out both!important}
+@keyframes cup-catch-v370{0%{transform:scale(1)}35%{transform:scale(1.15,.84);box-shadow:0 0 0 6px rgba(199,243,107,.17),inset 0 3px 5px rgba(0,0,0,.96)}100%{transform:scale(1)}}
 </style>
 
 </head>
@@ -6322,100 +6203,42 @@ three/build/three.module.js:
 (()=>{function stop(){try{window.ASESS&&window.ASESS.pause&&window.ASESS.pause()}catch(e){}try{window.ACX&&window.ACX.state==="running"&&window.ACX.suspend&&window.ACX.suspend()}catch(e){}}document.addEventListener("visibilitychange",()=>{if(document.hidden)stop()},{capture:true});window.addEventListener("pagehide",stop,{capture:true});})();
 </script>
 
-<script id="long-drive-v36-9-focus-script">
+<script id="long-drive-v37-safe-focus-script">
 (function(){
-  const AUTO_MS = 5000;
-  let shell = null;
-  let timer = null;
-  let observer = null;
-  let manuallyExpanded = false;
-
-  function ensureButton(){
-    let btn = document.getElementById("scene-info-toggle");
-    if(btn) return btn;
-    btn = document.createElement("button");
-    btn.id = "scene-info-toggle";
-    btn.type = "button";
-    btn.setAttribute("aria-label","Show or hide challenge information");
-    btn.textContent = "HIDE INFO";
-    document.body.appendChild(btn);
-
-    btn.addEventListener("click", function(){
-      if(!shell) return;
-      const collapsed = shell.classList.contains("scenery-focus");
-      if(collapsed){
-        shell.classList.remove("scenery-focus");
-        manuallyExpanded = true;
-        btn.textContent = "HIDE INFO";
+  var autoMs=5000,lastIdle=false,timer=null,expanded=false;
+  function getShell(){return document.querySelector('.game-shell');}
+  function ensureBtn(){
+    var b=document.getElementById('ld-info-toggle');
+    if(b)return b;
+    b=document.createElement('button');
+    b.id='ld-info-toggle';b.type='button';b.textContent='SHOW INFO';
+    b.setAttribute('aria-label','Show or hide challenge information');
+    document.body.appendChild(b);
+    b.addEventListener('click',function(){
+      var focus=document.body.classList.contains('ld-focus-on');
+      if(focus){
+        document.body.classList.remove('ld-focus-on');expanded=true;b.textContent='HIDE INFO';
         clearTimeout(timer);
-        timer = setTimeout(function(){
-          if(shell && shell.classList.contains("idle")){
-            shell.classList.add("scenery-focus");
-            manuallyExpanded = false;
-            btn.textContent = "SHOW INFO";
-          }
-        }, AUTO_MS);
+        timer=setTimeout(function(){var sh=getShell();if(sh&&sh.classList.contains('idle')){document.body.classList.add('ld-focus-on');expanded=false;b.textContent='SHOW INFO';}},autoMs);
       }else{
-        shell.classList.add("scenery-focus");
-        manuallyExpanded = false;
-        btn.textContent = "SHOW INFO";
-        clearTimeout(timer);
+        document.body.classList.add('ld-focus-on');expanded=false;b.textContent='SHOW INFO';clearTimeout(timer);
       }
     });
-    return btn;
+    return b;
   }
-
-  function setIdleState(){
-    const btn = ensureButton();
-    if(!shell) return;
-
-    const idle = shell.classList.contains("idle");
-    document.body.classList.toggle("scene-info-idle", idle);
-
-    if(!idle){
-      clearTimeout(timer);
-      shell.classList.remove("scenery-focus");
-      manuallyExpanded = false;
-      btn.textContent = "HIDE INFO";
-      return;
-    }
-
-    clearTimeout(timer);
-    if(!manuallyExpanded){
-      shell.classList.remove("scenery-focus");
-      btn.textContent = "HIDE INFO";
-      timer = setTimeout(function(){
-        if(shell && shell.classList.contains("idle")){
-          shell.classList.add("scenery-focus");
-          btn.textContent = "SHOW INFO";
-        }
-      }, AUTO_MS);
+  function tick(){
+    var sh=getShell();if(!sh)return;
+    var idle=sh.classList.contains('idle');
+    document.body.classList.toggle('ld-idle',idle);
+    ensureBtn();
+    if(idle!==lastIdle){
+      lastIdle=idle;clearTimeout(timer);
+      if(!idle){document.body.classList.remove('ld-focus-on');expanded=false;}
+      else if(!expanded){timer=setTimeout(function(){var now=getShell();if(now&&now.classList.contains('idle'))document.body.classList.add('ld-focus-on');},autoMs);}
     }
   }
-
-  function attach(){
-    shell = document.querySelector(".game-shell");
-    if(!shell) return false;
-
-    document.body.classList.add("scene-info-ready");
-    ensureButton();
-    observer = new MutationObserver(setIdleState);
-    observer.observe(shell,{attributes:true,attributeFilter:["class"]});
-    setIdleState();
-    return true;
-  }
-
-  if(!attach()){
-    const boot = new MutationObserver(function(){
-      if(attach()) boot.disconnect();
-    });
-    boot.observe(document.documentElement,{childList:true,subtree:true});
-  }
-
-  window.addEventListener("pagehide", function(){
-    clearTimeout(timer);
-    observer && observer.disconnect();
-  });
+  window.setInterval(tick,300);
+  window.setTimeout(tick,250);
 })();
 </script>
 
