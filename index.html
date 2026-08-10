@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#07150d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="game-version" content="v37.6">
+  <meta name="game-version" content="v37.8">
 <script>(function(){var lastH=0,syncing=!1;function s(){var vv=(window.visualViewport&&window.visualViewport.height)||window.innerHeight,h=vv,sc=window.screen||{},sh=sc.height||0,sw=sc.width||0;if(sh>vv&&sh-vv<160&&sh>=sw)h=sh;if(h===lastH)return;lastH=h;document.documentElement.style.setProperty("--app-h",h+"px");if(!syncing){syncing=!0;setTimeout(function(){syncing=!1;try{window.dispatchEvent(new Event("resize"))}catch(e){}},60)}}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",function(){setTimeout(s,240)});if(window.visualViewport){window.visualViewport.addEventListener("resize",s);window.visualViewport.addEventListener("scroll",s)}window.addEventListener("load",function(){s();setTimeout(s,300);setTimeout(s,1200)});document.addEventListener("visibilitychange",s)})();</script>
   <style>:root { color-scheme: dark; }
 
@@ -543,7 +543,7 @@ button { font: inherit; }
 }
 
 .brand-lockup::after {
-  content: "v37.6";
+  content: "v37.8";
   position: absolute;
   left: calc(100% + 7px);
   bottom: -1px;
@@ -2458,6 +2458,236 @@ body.ld-focus-on.ld-idle #ld-info-toggle{opacity:.94;visibility:visible;pointer-
     window.setTimeout(()=>{launch();schedule()},18000+Math.random()*26000);
   }
   window.setTimeout(schedule,6500);
+})();
+</script>
+
+
+<style id="long-drive-v37-7-polish">
+/* SHOW INFO: when restored, explicitly clear the hide-state blur. */
+body:not(.ld-focus-on) .game-shell.idle .challenge-chip,
+body:not(.ld-focus-on) .game-shell.idle .streak-chip,
+body:not(.ld-focus-on) .game-shell.idle .welcome-card {
+  filter:none !important;
+  opacity:1 !important;
+}
+
+/* Keep SHOW INFO in the higher position introduced in v37.6. */
+#ld-info-toggle {
+  top:max(166px,calc(env(safe-area-inset-top) + 146px)) !important;
+}
+
+/* Results reward row: larger, higher, and clearly separated from stats below. */
+.result-card .bonus-row {
+  margin: 7px 0 13px !important;
+  gap:10px !important;
+  transform:translateY(-5px);
+  flex-wrap:nowrap !important;
+}
+.result-card .bonus-row span {
+  min-height:38px;
+  padding:8px 14px !important;
+  display:inline-flex !important;
+  align-items:center;
+  justify-content:center;
+  font-size:11px !important;
+  line-height:1.1;
+  letter-spacing:.075em !important;
+  box-shadow:0 6px 16px rgba(0,0,0,.18);
+  white-space:nowrap;
+}
+.result-card .bonus-row span.hit {
+  font-size:11.5px !important;
+  font-weight:1000 !important;
+  border-width:1.5px !important;
+  box-shadow:0 0 18px rgba(199,243,107,.16),0 6px 16px rgba(0,0,0,.18);
+}
+.result-card .bonus-row span.milestone {
+  box-shadow:0 0 18px rgba(255,159,67,.18),0 6px 16px rgba(0,0,0,.18);
+}
+.result-card .result-details {
+  margin-top:0 !important;
+}
+
+/* Replace the old bars with one recognizable, distant jet silhouette. */
+.ld-plane {
+  width:42px !important;
+  height:14px !important;
+  background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgNjAiPgo8cGF0aCBmaWxsPSIjMjYzNjNkIiBkPSJNNiAzMWMwLTMgNS01IDEwLTZsNDktOCAyNC0xNGMzLTIgOC0zIDEyLTJsOCAyLTEyIDEzIDQ3LTNjMTAtMSAyMyAxIDI4IDZsNCA1LTQgNWMtNSA1LTE4IDctMjggNmwtNDctMyAxMiAxMy04IDJjLTQgMS05IDAtMTItMkw2NSAzMWwtNDktOGMtNS0xLTEwLTMtMTAtNnYxNHoiLz4KPGVsbGlwc2UgY3g9IjExNCIgY3k9IjM0IiByeD0iOSIgcnk9IjQiIGZpbGw9IiMxYTI3MmQiLz4KPGVsbGlwc2UgY3g9IjEzOSIgY3k9IjMyIiByeD0iOCIgcnk9IjMuNSIgZmlsbD0iIzFhMjcyZCIvPgo8L3N2Zz4=") !important;
+  background-repeat:no-repeat !important;
+  background-size:contain !important;
+  background-position:center !important;
+  opacity:.28 !important;
+  filter:drop-shadow(0 1px 1px rgba(0,0,0,.18)) blur(.12px) !important;
+  transform-origin:center;
+}
+.ld-plane::before,
+.ld-plane::after {
+  content:none !important;
+}
+@keyframes ld-plane-fly {
+  from { transform:translateX(-10px) translateY(0) scale(.62) rotate(-1deg); }
+  to   { transform:translateX(calc(100vw + 140px)) translateY(-14px) scale(.74) rotate(-1deg); }
+}
+</style>
+
+
+<style id="long-drive-v37-8-coast-events">
+/* Coastal milestone effects live entirely above the normal scene and never
+   alter ball physics or any other scenery. */
+#coast-event-v378{
+  position:fixed; inset:0; pointer-events:none; z-index:35; overflow:hidden;
+}
+#coast-event-v378 .splash{
+  position:absolute; left:58%; top:39%;
+  width:12px; height:12px; border-radius:50%;
+  transform:translate(-50%,-50%);
+}
+#coast-event-v378 .splash::before,
+#coast-event-v378 .splash::after{
+  content:""; position:absolute; left:50%; top:50%;
+  width:20px; height:7px; border:2px solid rgba(220,245,255,.92);
+  border-radius:50%; transform:translate(-50%,-50%) scale(.2);
+  opacity:0; animation:coast-ripple-v378 1.15s ease-out forwards;
+}
+#coast-event-v378 .splash::after{animation-delay:.18s}
+#coast-event-v378 .spray{
+  position:absolute; left:58%; top:39%; width:2px; height:2px;
+  border-radius:50%; background:#e8fbff;
+  box-shadow:
+   -22px -9px 0 1px rgba(232,251,255,.9),
+   -15px -21px 0 1px rgba(232,251,255,.8),
+   -7px -31px 0 1px rgba(232,251,255,.72),
+    8px -29px 0 1px rgba(232,251,255,.75),
+    17px -18px 0 1px rgba(232,251,255,.82),
+    25px -6px 0 1px rgba(232,251,255,.88);
+  animation:coast-spray-v378 .78s ease-out forwards;
+}
+@keyframes coast-ripple-v378{
+  0%{opacity:.9;transform:translate(-50%,-50%) scale(.2)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(5.2)}
+}
+@keyframes coast-spray-v378{
+  0%{opacity:0;transform:translate(-50%,-50%) translateY(10px) scale(.6)}
+  22%{opacity:1}
+  100%{opacity:0;transform:translate(-50%,-50%) translateY(-28px) scale(1.35)}
+}
+
+/* 600+ lighthouse easter egg: a small distant lighthouse appears only for
+   the event, with a curved incoming ball and brief impact spark. */
+#coast-event-v378 .lighthouse{
+  position:absolute; right:7.5%; top:37%;
+  width:16px; height:56px; transform-origin:50% 100%;
+  animation:lighthouse-pop-v378 .3s ease-out both;
+}
+#coast-event-v378 .lighthouse .tower{
+  position:absolute; left:4px; bottom:0; width:8px; height:43px;
+  background:linear-gradient(to bottom,#f7f4e9 0 30%,#d9584f 30% 46%,#f7f4e9 46% 70%,#d9584f 70% 84%,#f7f4e9 84%);
+  clip-path:polygon(27% 0,73% 0,100% 100%,0 100%);
+  filter:drop-shadow(0 1px 1px rgba(0,0,0,.35));
+}
+#coast-event-v378 .lighthouse .lamp{
+  position:absolute; left:2px; top:7px; width:12px; height:8px;
+  border-radius:2px; background:#17232a; border:1px solid rgba(255,255,255,.65);
+}
+#coast-event-v378 .lighthouse .roof{
+  position:absolute; left:1px; top:1px; width:14px; height:8px;
+  background:#b94e48; clip-path:polygon(50% 0,100% 100%,0 100%);
+}
+#coast-event-v378 .curve-ball{
+  position:absolute; left:28%; top:43%;
+  width:8px; height:8px; border-radius:50%; background:#fff;
+  box-shadow:0 0 5px rgba(255,255,255,.9);
+  animation:coast-curve-v378 1.15s cubic-bezier(.25,.55,.42,1) forwards;
+}
+#coast-event-v378 .impact{
+  position:absolute; right:8.2%; top:38.7%;
+  width:7px; height:7px; opacity:0;
+  background:#fff2a7; border-radius:50%;
+  box-shadow:0 0 0 3px rgba(255,218,101,.55),0 0 14px 5px rgba(255,218,101,.55);
+  animation:coast-impact-v378 .6s 1.04s ease-out forwards;
+}
+@keyframes coast-curve-v378{
+  0%{left:27%;top:43%;transform:scale(.75)}
+  45%{left:56%;top:35%;transform:scale(.9)}
+  82%{left:83%;top:37%;transform:scale(.78)}
+  100%{left:91.5%;top:39%;transform:scale(.65)}
+}
+@keyframes coast-impact-v378{
+  0%{opacity:0;transform:scale(.2)}
+  28%{opacity:1;transform:scale(1.4)}
+  100%{opacity:0;transform:scale(2.6)}
+}
+@keyframes lighthouse-pop-v378{
+  from{opacity:0;transform:scale(.8)}
+  to{opacity:.92;transform:scale(1)}
+}
+</style>
+
+<script id="long-drive-v37-8-coast-events-runtime">
+(()=>{
+  let lastKey="";
+  let clearTimer=0;
+
+  function layer(){
+    let el=document.getElementById("coast-event-v378");
+    if(!el){el=document.createElement("div");el.id="coast-event-v378";document.body.appendChild(el)}
+    return el;
+  }
+  function clear(){
+    clearTimeout(clearTimer);
+    const el=document.getElementById("coast-event-v378");
+    if(el)el.innerHTML="";
+  }
+  function audio(type){
+    try{
+      const C=window.AudioContext||window.webkitAudioContext;
+      if(!C)return;
+      const c=window.__coastAudio378||(window.__coastAudio378=new C());
+      if(c.state==="suspended")c.resume();
+      const t=c.currentTime;
+      if(type==="splash"){
+        const b=c.createBuffer(1,Math.floor(c.sampleRate*.48),c.sampleRate);
+        const d=b.getChannelData(0);
+        for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2.1);
+        const src=c.createBufferSource();src.buffer=b;
+        const f=c.createBiquadFilter();f.type="bandpass";f.frequency.value=920;f.Q.value=.7;
+        const g=c.createGain();g.gain.setValueAtTime(.13,t);g.gain.exponentialRampToValueAtTime(.001,t+.48);
+        src.connect(f);f.connect(g);g.connect(c.destination);src.start(t);
+      }else{
+        const osc=c.createOscillator();osc.type="triangle";
+        osc.frequency.setValueAtTime(720,t);osc.frequency.exponentialRampToValueAtTime(190,t+.22);
+        const g=c.createGain();g.gain.setValueAtTime(.001,t);g.gain.exponentialRampToValueAtTime(.17,t+.015);g.gain.exponentialRampToValueAtTime(.001,t+.3);
+        osc.connect(g);g.connect(c.destination);osc.start(t);osc.stop(t+.32);
+      }
+    }catch(e){}
+  }
+  function splash(){
+    clear();const el=layer();
+    el.innerHTML='<div class="splash"></div><div class="spray"></div>';
+    audio("splash");clearTimer=setTimeout(clear,1700);
+  }
+  function lighthouse(){
+    clear();const el=layer();
+    el.innerHTML='<div class="lighthouse"><i class="tower"></i><i class="lamp"></i><i class="roof"></i></div><div class="curve-ball"></div><div class="impact"></div>';
+    setTimeout(()=>audio("impact"),1030);
+    clearTimer=setTimeout(clear,2350);
+  }
+  function check(){
+    const shell=document.querySelector(".game-shell.scene-coast,.scene-coast");
+    if(!shell)return;
+    const txt=document.body.innerText||"";
+    const m=txt.match(/BALL DOWN\s*(\d{3,4})\s*(?:YDS|YARDS)?/i);
+    if(!m)return;
+    const yards=Number(m[1]);
+    if(yards<500)return;
+    const key=yards+"|"+(txt.includes("SWING AGAIN")?"R":"F");
+    if(key===lastKey)return;
+    lastKey=key;
+    if(yards>=600)lighthouse(); else splash();
+  }
+  const obs=new MutationObserver(check);
+  function start(){obs.observe(document.body,{subtree:true,childList:true,characterData:true});check()}
+  document.readyState==="loading"?document.addEventListener("DOMContentLoaded",start):start();
 })();
 </script>
 
