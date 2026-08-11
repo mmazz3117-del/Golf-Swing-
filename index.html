@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#07150d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="game-version" content="v38.6.24">
+  <meta name="game-version" content="v38.6.25">
 <script>(function(){var lastH=0,syncing=!1;function s(){var vv=(window.visualViewport&&window.visualViewport.height)||window.innerHeight,h=vv,sc=window.screen||{},sh=sc.height||0,sw=sc.width||0;if(sh>vv&&sh-vv<160&&sh>=sw)h=sh;if(h===lastH)return;lastH=h;document.documentElement.style.setProperty("--app-h",h+"px");if(!syncing){syncing=!0;setTimeout(function(){syncing=!1;try{window.dispatchEvent(new Event("resize"))}catch(e){}},60)}}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",function(){setTimeout(s,240)});if(window.visualViewport){window.visualViewport.addEventListener("resize",s);window.visualViewport.addEventListener("scroll",s)}window.addEventListener("load",function(){s();setTimeout(s,300);setTimeout(s,1200)});document.addEventListener("visibilitychange",s)})();</script>
   <style>:root { color-scheme: dark; }
 
@@ -543,7 +543,7 @@ button { font: inherit; }
 }
 
 .brand-lockup::after {
-  content: "v38.6.24";
+  content: "v38.6.25";
   position: absolute;
   left: calc(100% + 7px);
   bottom: -1px;
@@ -3267,31 +3267,31 @@ body:not(.ld-focus-on) .game-shell.idle .welcome-card {
 </style>
 
 
-<style id="long-drive-v38-6-24-stuart-refine">
-/* v38.6.24 keeps the stock swing/flight physics and only changes the Stuart Street camera-follow/ball scale mapping so 500–600+ yd shots visually recede to the street vanishing point. */
-/* v38.6.24 — Stuart Street visual refinement. Flight physics remain untouched. */
-.game-shell.scene-stuart .fairway-guide{display:block!important;top:47.5%!important;bottom:14%!important;width:min(560px,84vw)!important;opacity:.72!important;filter:drop-shadow(0 2px 5px rgba(0,0,0,.38))!important}
-.game-shell.scene-stuart .fairway-centerline{border-left-color:rgba(255,255,255,.58)!important}
+<style id="long-drive-v38-6-25-stuart-refine">
+/* v38.6.25 keeps stock Stuart carry/timing/lateral physics. Visual-only refinements: higher apparent arc, stronger downrange shrink/disappear, gentler OOB corridor convergence, and seamless real-road cup texture. */
+/* v38.6.25 — Stuart Street visual refinement. Flight physics remain untouched. */
+.game-shell.scene-stuart .fairway-guide{display:block!important;top:43.5%!important;bottom:6.5%!important;width:min(640px,92vw)!important;opacity:.70!important;filter:drop-shadow(0 2px 5px rgba(0,0,0,.32))!important}
+.game-shell.scene-stuart .fairway-centerline{border-left-color:rgba(255,255,255,.46)!important}
 .game-shell.scene-stuart .fairway-centerline b{color:rgba(255,255,255,.72)!important}
 .game-shell.scene-stuart .fairway-edge{background:linear-gradient(180deg,rgba(255,100,86,.14),rgba(255,94,79,.82))!important}
-.game-shell.scene-stuart .fairway-edge.edge-left{transform:rotate(17deg)!important}
-.game-shell.scene-stuart .fairway-edge.edge-right{transform:rotate(-17deg)!important}
-.game-shell.scene-stuart .landing-stage,.game-shell.scene-stuart .landing-stage .stage-ground{background-image:linear-gradient(180deg,rgba(10,13,12,.02),rgba(8,10,9,.16)),url("assets/stuart_asphalt_texture.jpg")!important;background-repeat:no-repeat,repeat!important;background-position:center center,center center!important;background-size:cover,520px auto!important;background-color:#484b49!important}
+.game-shell.scene-stuart .fairway-edge.edge-left{left:46.5%!important;transform:rotate(14deg)!important}
+.game-shell.scene-stuart .fairway-edge.edge-right{left:53.5%!important;transform:rotate(-14deg)!important}
+.game-shell.scene-stuart .landing-stage,.game-shell.scene-stuart .landing-stage .stage-ground{background-image:linear-gradient(180deg,rgba(8,10,9,.03),rgba(8,10,9,.10)),url("assets/stuart_asphalt_texture.jpg")!important;background-repeat:no-repeat!important;background-position:center center!important;background-size:cover!important;background-color:#50514f!important}
 .game-shell.scene-stuart .landing-stage{box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 12px 32px rgba(0,0,0,.24)!important}
 .game-shell.scene-stuart .landing-stage::before{content:none!important;display:none!important}
-.game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob{display:block!important;background:#111713!important;z-index:40!important;animation:stuart-v38624-house-out .28s 4.15s ease-in forwards!important}
-.game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob .oob-cutaway-frame.impact{display:block!important;opacity:1!important;background-image:url("assets/stuart_house_oob.jpeg")!important;background-position:center 58%!important;background-size:cover!important;transform:scale(1.015)!important;animation:stuart-v38624-house-hold 4.08s ease-out both!important}
+.game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob{display:block!important;background:#111713!important;z-index:40!important;animation:stuart-v38625-house-out .28s 4.15s ease-in forwards!important}
+.game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob .oob-cutaway-frame.impact{display:block!important;opacity:1!important;background-image:url("assets/stuart_house_oob.jpeg")!important;background-position:center 58%!important;background-size:cover!important;transform:scale(1.015)!important;animation:stuart-v38625-house-hold 4.08s ease-out both!important}
 .game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob .oob-cutaway-frame.fallen{display:none!important}
-@keyframes stuart-v38624-house-hold{0%{opacity:0;transform:scale(1.035)}8%{opacity:1}100%{opacity:1;transform:scale(1.008)}}
-@keyframes stuart-v38624-house-out{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(.992);visibility:hidden}}
+@keyframes stuart-v38625-house-hold{0%{opacity:0;transform:scale(1.035)}8%{opacity:1}100%{opacity:1;transform:scale(1.008)}}
+@keyframes stuart-v38625-house-out{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(.992);visibility:hidden}}
 .game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob .oob-cutaway-flash{right:42%!important;top:60%!important}
 .game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob .oob-cutaway-caption{font-size:0!important;color:#fff!important}
 .game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob .oob-cutaway-caption::after{content:"BALL BOUNCED OFF THE CAR!";font:900 9px/1 system-ui,-apple-system,sans-serif;letter-spacing:.09em;white-space:nowrap}
 .game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob::before{content:"TOO FAR RIGHT!";position:absolute;left:50%;top:13px;z-index:9;transform:translateX(-50%);padding:7px 12px;border-radius:999px;background:rgba(4,12,8,.82);border:1px solid rgba(255,255,255,.14);color:#ff7770;font:900 9px/1 system-ui,-apple-system,sans-serif;letter-spacing:.13em;white-space:nowrap}
-.game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob::after{content:"";position:absolute;z-index:8;width:8px;height:8px;border-radius:50%;background:var(--equipped-ball,#f7f7f4);box-shadow:0 1px 3px rgba(0,0,0,.5),0 0 3px rgba(255,255,255,.45);opacity:0;animation:stuart-v38624-car-bounce 1.55s .12s cubic-bezier(.18,.62,.22,1) both}
-@keyframes stuart-v38624-car-bounce{0%{left:12%;top:22%;opacity:0;transform:scale(1)}8%{opacity:1}43%{left:53%;top:60%;opacity:1;transform:scale(.82)}49%{left:56%;top:62%;opacity:1;transform:scale(1.04)}66%{left:68%;top:43%;opacity:1;transform:scale(.72)}82%{left:76%;top:51%;opacity:.9;transform:scale(.58)}100%{left:84%;top:70%;opacity:0;transform:scale(.42)}}
-.game-shell.scene-stuart:has(.oob-cutaway-v353.stuart-house-oob) .result-card{opacity:0;animation:stuart-v38624-result-in .30s 4.22s ease-out forwards!important}
-@keyframes stuart-v38624-result-in{from{opacity:0}to{opacity:1}}
+.game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob::after{content:"";position:absolute;z-index:8;width:8px;height:8px;border-radius:50%;background:var(--equipped-ball,#f7f7f4);box-shadow:0 1px 3px rgba(0,0,0,.5),0 0 3px rgba(255,255,255,.45);opacity:0;animation:stuart-v38625-car-bounce 1.55s .12s cubic-bezier(.18,.62,.22,1) both}
+@keyframes stuart-v38625-car-bounce{0%{left:12%;top:22%;opacity:0;transform:scale(1)}8%{opacity:1}43%{left:53%;top:60%;opacity:1;transform:scale(.82)}49%{left:56%;top:62%;opacity:1;transform:scale(1.04)}66%{left:68%;top:43%;opacity:1;transform:scale(.72)}82%{left:76%;top:51%;opacity:.9;transform:scale(.58)}100%{left:84%;top:70%;opacity:0;transform:scale(.42)}}
+.game-shell.scene-stuart:has(.oob-cutaway-v353.stuart-house-oob) .result-card{opacity:0;animation:stuart-v38625-result-in .30s 4.22s ease-out forwards!important}
+@keyframes stuart-v38625-result-in{from{opacity:0}to{opacity:1}}
 </style>
 
 </head>
@@ -7221,7 +7221,7 @@ m.push(window.setTimeout(p,600+Math.random()*1800))});
 return{ctx:e,stop(){m.forEach(g=>window.clearTimeout(g));try{s.gain.cancelScheduledValues(e.currentTime),s.gain.setValueAtTime(s.gain.value,e.currentTime),s.gain.exponentialRampToValueAtTime(1e-4,e.currentTime+.7)}catch{}
 window.setTimeout(()=>{try{c.stop(),f.stop(),w.stop(),s.disconnect()}catch{}},900)}}}catch{return null}}
 function mkZone(n){return null}
-function aS(n,t){if(!n)return;n.querySelectorAll("[data-yard]").forEach(i=>{let a=Number(i.dataset.yard??0)-t;if(a<-7||a>470){i.style.opacity="0";return}let r=hn(62/Math.max(62,a+62),.05,1),o=41+r*53,l=12+r*48;i.style.top=`${o.toFixed(2)}%`,i.style.width=`${l.toFixed(2)}%`,i.style.opacity=`${hn(.2+r*.86).toFixed(3)}`})}function uI(n,t,e,i,s,sceneId,a,r){let l=performance.now(),c=s.lateral*.28,u=16+s.yards*.065,h=Math.max(0,s.yards-s.carry),f=h*.62,d=l,m=-10,x=i?.querySelector(".scene-depth-far")??null,g=i?.querySelector(".scene-depth-middle")??null,p=i?.querySelector(".scene-depth-near")??null;n&&(n.course.visible=!1);let v=y=>{let _=y-l,T=Math.min(.05,Math.max(.001,(y-d)/1e3));if(d=y,_>=ed){let E=hn((_-ed)/(4650-ed)),A=0,C=.32;if(E<=.75){let G=hn(E/.75);A=s.carry*((1-Math.pow(1-G,1.6))*.86+G*.14),C=.32+u*3.58*G*Math.pow(1-G,.85)}else if(E<=.91){let G=hn((E-.75)/.16);A=s.carry+f*(1-Math.pow(1-G,1.35)),C=.27+Math.abs(Math.sin(G*Math.PI*2.1))*u*.085*Math.pow(1-G,1.9)}else{let G=hn((E-.91)/.09),ft=h-f;A=s.carry+f+ft*(1-Math.pow(1-G,2.2)),C=.27}let S=hn(A/Math.max(s.yards,1)),M=hn((E-.55)/.22),U=M*M*(3-2*M),F=c*Math.pow(S,1.48),H=-A,Az=Math.min(A,s.carry*.96)*.62,St=sceneId==="stuart"?1-Math.pow(1-S,1.55):0,Sc=sceneId==="stuart"?Az*(1-.82*St):Az,Ag=17+A-Az,Ak=1+(Ag-17)*.006,Ss=sceneId==="stuart"?Math.max(.24,Ak*(1-.72*St)):Ak,V=Math.min(s.yards,Math.round(A)),K=E>=1?s.yards:Math.floor(V/5)*5;if(K!==m&&(m=K,a(K)),n){n.tee.visible=!1,n.ball.position.set(F,C,H),n.ball.scale.setScalar(Ss),n.ball.rotation.x+=T*(E>.75?26*Math.max(.15,1-(E-.75)*4):21),n.ball.rotation.z+=T*s.path*3.2,n.ballShadow.position.set(F,.085,H);let ft=hn(C/Math.max(u,1)),_t=(.9+ft*1.85)*Ss;n.ballShadow.scale.set(_t,_t,1),n.ballShadow.visible=M>.08,n.ballShadow.material.opacity=.46*U*(1-ft*.72),n.camera.position.set(F*.18,5.92+(C-.32)*.6,17-Sc),n.camera.lookAt(F*.38,(C-.32)*.58-5.68+10*U,H-12);
+function aS(n,t){if(!n)return;n.querySelectorAll("[data-yard]").forEach(i=>{let a=Number(i.dataset.yard??0)-t;if(a<-7||a>470){i.style.opacity="0";return}let r=hn(62/Math.max(62,a+62),.05,1),o=41+r*53,l=12+r*48;i.style.top=`${o.toFixed(2)}%`,i.style.width=`${l.toFixed(2)}%`,i.style.opacity=`${hn(.2+r*.86).toFixed(3)}`})}function uI(n,t,e,i,s,sceneId,a,r){let l=performance.now(),c=s.lateral*.28,u=16+s.yards*.065,h=Math.max(0,s.yards-s.carry),f=h*.62,d=l,m=-10,x=i?.querySelector(".scene-depth-far")??null,g=i?.querySelector(".scene-depth-middle")??null,p=i?.querySelector(".scene-depth-near")??null;n&&(n.course.visible=!1);let v=y=>{let _=y-l,T=Math.min(.05,Math.max(.001,(y-d)/1e3));if(d=y,_>=ed){let E=hn((_-ed)/(4650-ed)),A=0,C=.32;if(E<=.75){let G=hn(E/.75);A=s.carry*((1-Math.pow(1-G,1.6))*.86+G*.14),C=.32+u*3.58*G*Math.pow(1-G,.85)}else if(E<=.91){let G=hn((E-.75)/.16);A=s.carry+f*(1-Math.pow(1-G,1.35)),C=.27+Math.abs(Math.sin(G*Math.PI*2.1))*u*.085*Math.pow(1-G,1.9)}else{let G=hn((E-.91)/.09),ft=h-f;A=s.carry+f+ft*(1-Math.pow(1-G,2.2)),C=.27}let S=hn(A/Math.max(s.yards,1)),M=hn((E-.55)/.22),U=M*M*(3-2*M),F=c*Math.pow(S,1.48),H=-A,Az=Math.min(A,s.carry*.96)*.62,St=sceneId==="stuart"?1-Math.pow(1-S,1.55):0,Sc=sceneId==="stuart"?Az*(1-.82*St):Az,Ag=17+A-Az,Ak=1+(Ag-17)*.006,Ss=sceneId==="stuart"?Math.max(.055,Ak*(1-.92*St)):Ak,V=Math.min(s.yards,Math.round(A)),K=E>=1?s.yards:Math.floor(V/5)*5;if(K!==m&&(m=K,a(K)),n){n.tee.visible=!1,n.ball.visible=!(sceneId==="stuart"&&S>.935),n.ball.position.set(F,sceneId==="stuart"?.32+(C-.32)*1.62:C,H),n.ball.scale.setScalar(Ss),n.ball.rotation.x+=T*(E>.75?26*Math.max(.15,1-(E-.75)*4):21),n.ball.rotation.z+=T*s.path*3.2,n.ballShadow.position.set(F,.085,H);let ft=hn(C/Math.max(u,1)),_t=(.9+ft*1.85)*Ss;n.ballShadow.scale.set(_t,_t,1),n.ballShadow.visible=M>.08,n.ballShadow.material.opacity=.46*U*(1-ft*.72),n.camera.position.set(F*.18,5.92+(C-.32)*.6,17-Sc),n.camera.lookAt(F*.38,(C-.32)*.58-5.68+10*U,H-12);
 if(sceneId==="hudson"){
 try{
 let pr=n.ball.position.clone().project(n.camera),
