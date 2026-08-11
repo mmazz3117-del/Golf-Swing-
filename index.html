@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#07150d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="game-version" content="v38.6.27">
+  <meta name="game-version" content="v38.6.28">
 <script>(function(){var lastH=0,syncing=!1;function s(){var vv=(window.visualViewport&&window.visualViewport.height)||window.innerHeight,h=vv,sc=window.screen||{},sh=sc.height||0,sw=sc.width||0;if(sh>vv&&sh-vv<160&&sh>=sw)h=sh;if(h===lastH)return;lastH=h;document.documentElement.style.setProperty("--app-h",h+"px");if(!syncing){syncing=!0;setTimeout(function(){syncing=!1;try{window.dispatchEvent(new Event("resize"))}catch(e){}},60)}}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",function(){setTimeout(s,240)});if(window.visualViewport){window.visualViewport.addEventListener("resize",s);window.visualViewport.addEventListener("scroll",s)}window.addEventListener("load",function(){s();setTimeout(s,300);setTimeout(s,1200)});document.addEventListener("visibilitychange",s)})();</script>
   <style>:root { color-scheme: dark; }
 
@@ -543,7 +543,7 @@ button { font: inherit; }
 }
 
 .brand-lockup::after {
-  content: "v38.6.27";
+  content: "v38.6.28";
   position: absolute;
   left: calc(100% + 7px);
   bottom: -1px;
@@ -3268,8 +3268,8 @@ body:not(.ld-focus-on) .game-shell.idle .welcome-card {
 
 
 <style id="long-drive-v38-6-25-stuart-refine">
-/* v38.6.27 keeps stock Stuart carry/timing/lateral physics. Visual-only refinements: higher apparent arc, stronger downrange shrink/disappear, gentler OOB corridor convergence, and seamless real-road cup texture. */
-/* v38.6.27 — Stuart Street visual refinement. Flight physics remain untouched. */
+/* v38.6.28 keeps stock Stuart carry/timing/lateral physics. Visual-only refinements: higher apparent arc, stronger downrange shrink/disappear, gentler OOB corridor convergence, and seamless real-road cup texture. */
+/* v38.6.28 — Stuart Street visual refinement. Flight physics remain untouched. */
 .game-shell.scene-stuart .fairway-guide{display:block!important;top:43.5%!important;bottom:6.5%!important;width:min(640px,92vw)!important;opacity:.70!important;filter:drop-shadow(0 2px 5px rgba(0,0,0,.32))!important}
 .game-shell.scene-stuart .fairway-centerline{border-left-color:rgba(255,255,255,.46)!important}
 .game-shell.scene-stuart .fairway-centerline b{color:rgba(255,255,255,.72)!important}
@@ -3296,7 +3296,7 @@ body:not(.ld-focus-on) .game-shell.idle .welcome-card {
 
 
 <style id="long-drive-v38-6-26-shop-polish">
-/* v38.6.27 — Range Shop polish only.
+/* v38.6.28 — Range Shop polish only.
    Correct the two scene thumbnails that were still showing the generic
    mountain preview layer. Gameplay/scenery rendering is untouched. */
 .scene-card .scene-card-photo.photo-hudson {
@@ -3330,20 +3330,47 @@ body:not(.ld-focus-on) .game-shell.idle .welcome-card {
 </style>
 
 
-<style id="long-drive-v38-6-27-fixed-scene-thumbnails">
-/* v38.6.27 — Range Shop preview cards are now independent.
-   The scene-card button already carries that scene's own L.image.
-   Disable the legacy child image layer that was being overwritten with
-   the currently selected scene whenever the Range Shop opened. */
-.scene-list .scene-card .scene-card-photo {
-  background-image:none !important;
+
+
+<style id="long-drive-v38-6-28-range-shop-previews">
+/* v38.6.28 — Range Shop preview cards are independent again.
+   Keep each card's own existing photo layer; only the JavaScript that
+   overwrote every card with the currently selected scene has been removed. */
+
+/* Hudson / Stuart remain explicitly tied to their real scene art. */
+.scene-card .scene-card-photo.photo-hudson {
+  background-image:url("assets/embedded_asset_02.png") !important;
+  background-size:cover !important;
+  background-position:center center !important;
+  background-repeat:no-repeat !important;
+  filter:none !important;
+  opacity:1 !important;
 }
-/* Keep the existing dark readability gradient over each fixed card image. */
-.scene-list .scene-card .scene-card-photo::after {
-  content:"" !important;
-  position:absolute !important;
-  inset:0 !important;
-  background:linear-gradient(180deg,transparent 32%,rgba(4,14,9,.90) 100%) !important;
+.scene-card .scene-card-photo.photo-stuart {
+  background-image:url("assets/stuart_street_scene.png") !important;
+  background-size:cover !important;
+  background-position:center 48% !important;
+  background-repeat:no-repeat !important;
+  filter:none !important;
+  opacity:1 !important;
+}
+
+/* Match the Achievements headline to the primary text in the Equipment
+   and Ball Locker boxes above it. */
+.achievement-section > summary.achievement-summary {
+  font-family:inherit !important;
+  font-size:14px !important;
+  font-weight:700 !important;
+  letter-spacing:0 !important;
+  line-height:1.1 !important;
+  text-transform:none !important;
+}
+.achievement-section > summary.achievement-summary::before {
+  font-family:inherit !important;
+  font-size:7px !important;
+  font-weight:900 !important;
+  letter-spacing:.15em !important;
+  line-height:1 !important;
 }
 </style>
 
@@ -7355,7 +7382,7 @@ setOwnedBalls(ut),setBallId(bd.some(Mt=>Mt.id===L)&&ut.includes(L)?L:"classic")
 }catch{}},[]),(0,re.useEffect)(()=>{if(!Ot)return;let L=window.setTimeout(()=>Rt(null),2800);return()=>window.clearTimeout(L)},[Ot]),(0,re.useEffect)(()=>{try{window.localStorage.removeItem("long-drive-rival"),window.localStorage.removeItem("long-drive-rival-record");let ut=Number(window.localStorage.getItem("long-drive-streak")??0),Mt=Number(window.localStorage.getItem("long-drive-best-streak")??0);Number.isFinite(ut)&&setStreak(ut),Number.isFinite(Mt)&&setBestStreak(Mt)}catch{}setRivalOn(!1),setTz(mkZone(Number(window.localStorage.getItem("long-drive-best")??0)))},[]),(0,re.useEffect)(()=>{let L=!1;ambKick.current=null;ambRef.current&&(ambRef.current.stop(),ambRef.current=null);if(!l)return;
 let Y=()=>{if(L||ambRef.current)return;let ut=startAmbience(V);ut&&(ambRef.current=ut)};
 ambKick.current=Y;try{let ut=getCtx();ut&&ut.state==="running"&&Y()}catch{}
-return()=>{L=!0;ambKick.current=null;ambRef.current&&(ambRef.current.stop(),ambRef.current=null)}},[l,V]),(0,re.useEffect)(()=>{if(!yt)return;let L=document.querySelector(".scene-depth");if(!L)return;let Y=getComputedStyle(L).backgroundImage;Y&&Y!=="none"&&document.querySelectorAll(".scene-card-photo").forEach(ut=>{ut.style.backgroundImage=Y})},[yt]),(0,re.useEffect)(()=>{if(u!=="landing")return;let L=document.querySelector(".landing-cut");if(!L)return;let Y=document.querySelector(".scene-depth");if(!Y)return;let ut=getComputedStyle(Y).backgroundImage;ut&&ut!=="none"&&(L.style.backgroundImage=`linear-gradient(180deg, rgba(5,16,10,.32), rgba(4,13,8,.66)), ${ut}`)},[u]),(0,re.useEffect)(()=>{if(!(u==="landing"&&_?.holedOut&&l))return;let L=window.setTimeout(()=>{cupDropSfx(l,0);navigator.vibrate&&navigator.vibrate([14,28,20])},3070);return()=>window.clearTimeout(L)},[u,_,l]),(0,re.useEffect)(()=>{u==="landed"&&_?.isOutOfBounds&&V!=="hudson"&&l&&hI(l,520)},[u,_,l,V]),(0,re.useEffect)(()=>{if(true)return;
+return()=>{L=!0;ambKick.current=null;ambRef.current&&(ambRef.current.stop(),ambRef.current=null)}},[l,V]),(0,re.useEffect)(()=>{if(u!=="landing")return;let L=document.querySelector(".landing-cut");if(!L)return;let Y=document.querySelector(".scene-depth");if(!Y)return;let ut=getComputedStyle(Y).backgroundImage;ut&&ut!=="none"&&(L.style.backgroundImage=`linear-gradient(180deg, rgba(5,16,10,.32), rgba(4,13,8,.66)), ${ut}`)},[u]),(0,re.useEffect)(()=>{if(!(u==="landing"&&_?.holedOut&&l))return;let L=window.setTimeout(()=>{cupDropSfx(l,0);navigator.vibrate&&navigator.vibrate([14,28,20])},3070);return()=>window.clearTimeout(L)},[u,_,l]),(0,re.useEffect)(()=>{u==="landed"&&_?.isOutOfBounds&&V!=="hudson"&&l&&hI(l,520)},[u,_,l,V]),(0,re.useEffect)(()=>{if(true)return;
 let L=document.getElementById("hudson-splash-v386");
 L&&L.remove();
 L=document.createElement("div");L.id="hudson-splash-v386";
