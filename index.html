@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#07150d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="game-version" content="v38.6.21">
+  <meta name="game-version" content="v38.6.22">
 <script>(function(){var lastH=0,syncing=!1;function s(){var vv=(window.visualViewport&&window.visualViewport.height)||window.innerHeight,h=vv,sc=window.screen||{},sh=sc.height||0,sw=sc.width||0;if(sh>vv&&sh-vv<160&&sh>=sw)h=sh;if(h===lastH)return;lastH=h;document.documentElement.style.setProperty("--app-h",h+"px");if(!syncing){syncing=!0;setTimeout(function(){syncing=!1;try{window.dispatchEvent(new Event("resize"))}catch(e){}},60)}}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",function(){setTimeout(s,240)});if(window.visualViewport){window.visualViewport.addEventListener("resize",s);window.visualViewport.addEventListener("scroll",s)}window.addEventListener("load",function(){s();setTimeout(s,300);setTimeout(s,1200)});document.addEventListener("visibilitychange",s)})();</script>
   <style>:root { color-scheme: dark; }
 
@@ -543,7 +543,7 @@ button { font: inherit; }
 }
 
 .brand-lockup::after {
-  content: "v38.6.21";
+  content: "v38.6.22";
   position: absolute;
   left: calc(100% + 7px);
   bottom: -1px;
@@ -3267,109 +3267,44 @@ body:not(.ld-focus-on) .game-shell.idle .welcome-card {
 </style>
 
 
-<style id="long-drive-v38-6-21-stuart-street-finish">
-/* v38.6.21 — Stuart Street only. Preserve every other scene. */
+<style id="long-drive-v38-6-22-stuart-baseline">
+/* v38.6.22 — Stuart Street baseline.
+   IMPORTANT: the live flight/canvas/left-right response is intentionally untouched. */
 
-/* During Stuart flight, suppress the normal WebGL ball path only. The golfer is a
-   separate live layer and remains visible. A scene-specific ball below provides the
-   long, deep street perspective without a tracer line. */
-.game-shell.scene-stuart.flying .game-canvas {
-  opacity:0 !important;
-  visibility:hidden !important;
-}
-.game-shell.scene-stuart.flying .fallback-ball {
-  display:none !important;
-}
-.game-shell.scene-stuart.flying .scene-camera::after {
-  content:"";
-  position:absolute;
-  z-index:12;
-  left:50%;
-  top:76%;
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  pointer-events:none;
-  background:var(--equipped-ball,#f7f7f4);
-  box-shadow:0 1px 3px rgba(0,0,0,.50), inset -1px -1px 2px rgba(0,0,0,.16), inset 1px 1px 2px rgba(255,255,255,.55);
-  transform:translate(-50%,-50%);
-  opacity:0;
-  animation:stuart-v38621-flight 2.55s cubic-bezier(.15,.48,.18,1) both;
-}
-/* The ball gets airborne immediately, reaches its apex early, then converges on the
-   road's vanishing point while shrinking. It never skims/bounces along the foreground. */
-@keyframes stuart-v38621-flight {
-  0%   { left:50%;   top:76%;   width:10px; height:10px; opacity:0; }
-  4%   { opacity:1; }
-  12%  { left:50.3%; top:61%;   width:9px;  height:9px;  opacity:1; }
-  24%  { left:50.5%; top:49%;   width:7px;  height:7px;  opacity:1; }
-  38%  { left:50.4%; top:40%;   width:5px;  height:5px;  opacity:1; }
-  52%  { left:50.25%;top:36.5%; width:4px;  height:4px;  opacity:.98; }
-  68%  { left:50.15%;top:38.2%; width:3px;  height:3px;  opacity:.95; }
-  84%  { left:50.05%;top:40.4%; width:2px;  height:2px;  opacity:.82; }
-  100% { left:50%;   top:42.0%; width:1px;  height:1px;  opacity:0; transform:translate(-50%,-50%) scale(.35); }
-}
-/* Respect shot direction while still converging deep into the street. */
-.game-shell.scene-stuart.flying:has(.fairway-guide.oob-right) .scene-camera::after {
-  animation-name:stuart-v38621-flight-right;
-}
-.game-shell.scene-stuart.flying:has(.fairway-guide.oob-left) .scene-camera::after {
-  animation-name:stuart-v38621-flight-left;
-}
-@keyframes stuart-v38621-flight-right {
-  0%{left:50%;top:76%;width:10px;height:10px;opacity:0} 4%{opacity:1}
-  12%{left:51%;top:61%;width:9px;height:9px;opacity:1} 24%{left:52.2%;top:49%;width:7px;height:7px}
-  38%{left:53.4%;top:40%;width:5px;height:5px} 52%{left:54.2%;top:36.5%;width:4px;height:4px}
-  68%{left:54.6%;top:38.2%;width:3px;height:3px} 84%{left:55%;top:40.4%;width:2px;height:2px;opacity:.82}
-  100%{left:55.4%;top:42%;width:1px;height:1px;opacity:0;transform:translate(-50%,-50%) scale(.35)}
-}
-@keyframes stuart-v38621-flight-left {
-  0%{left:50%;top:76%;width:10px;height:10px;opacity:0} 4%{opacity:1}
-  12%{left:49%;top:61%;width:9px;height:9px;opacity:1} 24%{left:47.8%;top:49%;width:7px;height:7px}
-  38%{left:46.6%;top:40%;width:5px;height:5px} 52%{left:45.8%;top:36.5%;width:4px;height:4px}
-  68%{left:45.4%;top:38.2%;width:3px;height:3px} 84%{left:45%;top:40.4%;width:2px;height:2px;opacity:.82}
-  100%{left:44.6%;top:42%;width:1px;height:1px;opacity:0;transform:translate(-50%,-50%) scale(.35)}
-}
-
-/* Keep the original live landing/cup cutaway and all its ball/cup/hole-out mechanics.
-   Only replace the turf presentation with a road/asphalt presentation on Stuart. */
-.game-shell.scene-stuart .landing-cut {
-  background-image:
-    linear-gradient(180deg,rgba(8,13,11,.08),rgba(5,9,7,.42)),
-    repeating-linear-gradient(9deg,rgba(255,255,255,.016) 0 1px,transparent 1px 4px),
-    radial-gradient(ellipse at 50% 35%,rgba(255,255,255,.055),transparent 58%),
-    linear-gradient(180deg,#5a5d59 0%,#484b48 53%,#373a37 100%) !important;
-  background-color:#454845 !important;
-  background-size:cover !important;
-  background-position:center !important;
-  z-index:25 !important;
-}
+/* Keep the normal Stuart Street landing cutaway background (the street image).
+   Change ONLY the small landing stage from turf to road/asphalt, preserving the
+   existing ball, yard markers, cup, flag, lip-out and hole-out animations. */
 .game-shell.scene-stuart .landing-stage {
   background:
-    repeating-linear-gradient(10deg,rgba(255,255,255,.016) 0 1px,transparent 1px 4px),
-    linear-gradient(180deg,#595c58 0%,#474a47 58%,#383b38 100%) !important;
+    repeating-linear-gradient(11deg,rgba(255,255,255,.018) 0 1px,transparent 1px 4px),
+    linear-gradient(180deg,#666966 0%,#505350 56%,#3e413f 100%) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08), 0 12px 32px rgba(0,0,0,.24) !important;
 }
 .game-shell.scene-stuart .landing-stage .stage-ground {
-  background:linear-gradient(180deg,#595c58 0%,#454845 58%,#363936 100%) !important;
+  background:
+    repeating-linear-gradient(11deg,rgba(255,255,255,.016) 0 1px,transparent 1px 4px),
+    linear-gradient(180deg,#626562 0%,#4c4f4c 58%,#3a3d3b 100%) !important;
 }
+/* A restrained road marking makes the cutaway read as street without replacing
+   the actual Stuart Street backdrop. */
 .game-shell.scene-stuart .landing-stage::before {
   content:"";
   position:absolute;
-  left:-8%; right:-8%; top:19%; height:4px;
-  z-index:1;
-  opacity:.78;
-  background:#d0a43d;
-  box-shadow:0 10px 0 #d0a43d;
-  transform:rotate(3.5deg);
-  pointer-events:none;
+  left:-8%; right:-8%; top:18%; height:3px;
+  z-index:1; pointer-events:none; opacity:.72;
+  background:#d2a744;
+  box-shadow:0 9px 0 #d2a744;
+  transform:rotate(3deg);
 }
 
-/* Only a RIGHT-side Stuart OOB is rendered as a cinematic by the compiled render
-   condition above. Left-side Stuart OOB shows the normal result with no tree movie. */
+/* Right-side OOB: use the approved driveway photograph. This is visual only;
+   the normal shot physics and left/right response are unchanged. */
 .game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob {
   display:block !important;
   background:#111713 !important;
   z-index:40 !important;
+  /* Original cutaway exits at 2.15s. Hold this one ~2 seconds longer. */
+  animation:stuart-v38622-house-out .28s 4.15s ease-in forwards !important;
 }
 .game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob .oob-cutaway-frame.impact {
   display:block !important;
@@ -3378,58 +3313,46 @@ body:not(.ld-focus-on) .game-shell.idle .welcome-card {
   background-position:center 58% !important;
   background-size:cover !important;
   transform:scale(1.015) !important;
-  animation:stuart-v38621-house-hold 2.15s ease-out both !important;
+  animation:stuart-v38622-house-hold 4.08s ease-out both !important;
 }
 .game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob .oob-cutaway-frame.fallen {
   display:none !important;
 }
-@keyframes stuart-v38621-house-hold {
-  0% { opacity:0; transform:scale(1.045); }
-  10% { opacity:1; }
-  100% { opacity:1; transform:scale(1.01); }
+@keyframes stuart-v38622-house-hold {
+  0% { opacity:0; transform:scale(1.035); }
+  8% { opacity:1; }
+  100% { opacity:1; transform:scale(1.008); }
+}
+@keyframes stuart-v38622-house-out {
+  from { opacity:1; transform:scale(1); }
+  to { opacity:0; transform:scale(.992); visibility:hidden; }
 }
 .game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob .oob-cutaway-flash {
-  right:42% !important;
-  top:60% !important;
+  right:42% !important; top:60% !important;
 }
 .game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob .oob-cutaway-caption {
-  font-size:0 !important;
-  color:#fff !important;
+  font-size:0 !important; color:#fff !important;
 }
 .game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob .oob-cutaway-caption::after {
   content:"BALL BOUNCED OFF THE CAR!";
   font:900 9px/1 system-ui,-apple-system,sans-serif;
-  letter-spacing:.09em;
-  white-space:nowrap;
+  letter-spacing:.09em; white-space:nowrap;
 }
 .game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob::before {
   content:"TOO FAR RIGHT!";
-  position:absolute;
-  left:50%; top:13px;
-  z-index:9;
-  transform:translateX(-50%);
-  padding:7px 12px;
-  border-radius:999px;
-  background:rgba(4,12,8,.82);
-  border:1px solid rgba(255,255,255,.14);
-  color:#ff7770;
-  font:900 9px/1 system-ui,-apple-system,sans-serif;
-  letter-spacing:.13em;
-  white-space:nowrap;
+  position:absolute; left:50%; top:13px; z-index:9;
+  transform:translateX(-50%); padding:7px 12px; border-radius:999px;
+  background:rgba(4,12,8,.82); border:1px solid rgba(255,255,255,.14);
+  color:#ff7770; font:900 9px/1 system-ui,-apple-system,sans-serif;
+  letter-spacing:.13em; white-space:nowrap;
 }
-/* Ball flies into the parked car, makes contact, rebounds, then falls away. */
 .game-shell.scene-stuart .oob-cutaway-v353.stuart-house-oob::after {
-  content:"";
-  position:absolute;
-  z-index:8;
-  width:8px; height:8px;
-  border-radius:50%;
+  content:""; position:absolute; z-index:8; width:8px; height:8px; border-radius:50%;
   background:var(--equipped-ball,#f7f7f4);
   box-shadow:0 1px 3px rgba(0,0,0,.5),0 0 3px rgba(255,255,255,.45);
-  opacity:0;
-  animation:stuart-v38621-car-bounce 1.55s .12s cubic-bezier(.18,.62,.22,1) both;
+  opacity:0; animation:stuart-v38622-car-bounce 1.55s .12s cubic-bezier(.18,.62,.22,1) both;
 }
-@keyframes stuart-v38621-car-bounce {
+@keyframes stuart-v38622-car-bounce {
   0%   { left:12%; top:22%; opacity:0; transform:scale(1); }
   8%   { opacity:1; }
   43%  { left:53%; top:60%; opacity:1; transform:scale(.82); }
@@ -3438,6 +3361,13 @@ body:not(.ld-focus-on) .game-shell.idle .welcome-card {
   82%  { left:76%; top:51%; opacity:.9; transform:scale(.58); }
   100% { left:84%; top:70%; opacity:0; transform:scale(.42); }
 }
+/* Keep the result hidden until the longer driveway cutaway has finished, then
+   restore the normal result card so the game cannot appear stuck on the cutaway. */
+.game-shell.scene-stuart:has(.oob-cutaway-v353.stuart-house-oob) .result-card {
+  opacity:0;
+  animation:stuart-v38622-result-in .30s 4.22s ease-out forwards !important;
+}
+@keyframes stuart-v38622-result-in { from{opacity:0} to{opacity:1} }
 </style>
 
 </head>
