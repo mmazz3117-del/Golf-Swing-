@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#07150d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="game-version" content="v38.6.25">
+  <meta name="game-version" content="v38.6.27">
 <script>(function(){var lastH=0,syncing=!1;function s(){var vv=(window.visualViewport&&window.visualViewport.height)||window.innerHeight,h=vv,sc=window.screen||{},sh=sc.height||0,sw=sc.width||0;if(sh>vv&&sh-vv<160&&sh>=sw)h=sh;if(h===lastH)return;lastH=h;document.documentElement.style.setProperty("--app-h",h+"px");if(!syncing){syncing=!0;setTimeout(function(){syncing=!1;try{window.dispatchEvent(new Event("resize"))}catch(e){}},60)}}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",function(){setTimeout(s,240)});if(window.visualViewport){window.visualViewport.addEventListener("resize",s);window.visualViewport.addEventListener("scroll",s)}window.addEventListener("load",function(){s();setTimeout(s,300);setTimeout(s,1200)});document.addEventListener("visibilitychange",s)})();</script>
   <style>:root { color-scheme: dark; }
 
@@ -543,7 +543,7 @@ button { font: inherit; }
 }
 
 .brand-lockup::after {
-  content: "v38.6.25";
+  content: "v38.6.27";
   position: absolute;
   left: calc(100% + 7px);
   bottom: -1px;
@@ -3268,8 +3268,8 @@ body:not(.ld-focus-on) .game-shell.idle .welcome-card {
 
 
 <style id="long-drive-v38-6-25-stuart-refine">
-/* v38.6.25 keeps stock Stuart carry/timing/lateral physics. Visual-only refinements: higher apparent arc, stronger downrange shrink/disappear, gentler OOB corridor convergence, and seamless real-road cup texture. */
-/* v38.6.25 — Stuart Street visual refinement. Flight physics remain untouched. */
+/* v38.6.27 keeps stock Stuart carry/timing/lateral physics. Visual-only refinements: higher apparent arc, stronger downrange shrink/disappear, gentler OOB corridor convergence, and seamless real-road cup texture. */
+/* v38.6.27 — Stuart Street visual refinement. Flight physics remain untouched. */
 .game-shell.scene-stuart .fairway-guide{display:block!important;top:43.5%!important;bottom:6.5%!important;width:min(640px,92vw)!important;opacity:.70!important;filter:drop-shadow(0 2px 5px rgba(0,0,0,.32))!important}
 .game-shell.scene-stuart .fairway-centerline{border-left-color:rgba(255,255,255,.46)!important}
 .game-shell.scene-stuart .fairway-centerline b{color:rgba(255,255,255,.72)!important}
@@ -3292,6 +3292,59 @@ body:not(.ld-focus-on) .game-shell.idle .welcome-card {
 @keyframes stuart-v38625-car-bounce{0%{left:12%;top:22%;opacity:0;transform:scale(1)}8%{opacity:1}43%{left:53%;top:60%;opacity:1;transform:scale(.82)}49%{left:56%;top:62%;opacity:1;transform:scale(1.04)}66%{left:68%;top:43%;opacity:1;transform:scale(.72)}82%{left:76%;top:51%;opacity:.9;transform:scale(.58)}100%{left:84%;top:70%;opacity:0;transform:scale(.42)}}
 .game-shell.scene-stuart:has(.oob-cutaway-v353.stuart-house-oob) .result-card{opacity:0;animation:stuart-v38625-result-in .30s 4.22s ease-out forwards!important}
 @keyframes stuart-v38625-result-in{from{opacity:0}to{opacity:1}}
+</style>
+
+
+<style id="long-drive-v38-6-26-shop-polish">
+/* v38.6.27 — Range Shop polish only.
+   Correct the two scene thumbnails that were still showing the generic
+   mountain preview layer. Gameplay/scenery rendering is untouched. */
+.scene-card .scene-card-photo.photo-hudson {
+  background-image:url("assets/embedded_asset_02.png") !important;
+  background-size:cover !important;
+  background-position:50% 50% !important;
+  background-repeat:no-repeat !important;
+  opacity:1 !important;
+}
+.scene-card .scene-card-photo.photo-stuart {
+  background-image:url("assets/stuart_street_scene.png") !important;
+  background-size:cover !important;
+  background-position:50% 48% !important;
+  background-repeat:no-repeat !important;
+  opacity:1 !important;
+}
+
+/* Match the Achievements headline to the main text treatment in the
+   Equipment and Ball Locker launch boxes above it. */
+.achievement-section > summary.achievement-summary {
+  font-size:14px !important;
+  font-weight:700 !important;
+  letter-spacing:0 !important;
+  line-height:1.1 !important;
+}
+.achievement-section > summary.achievement-summary::before {
+  font-size:7px !important;
+  font-weight:900 !important;
+  letter-spacing:.15em !important;
+}
+</style>
+
+
+<style id="long-drive-v38-6-27-fixed-scene-thumbnails">
+/* v38.6.27 — Range Shop preview cards are now independent.
+   The scene-card button already carries that scene's own L.image.
+   Disable the legacy child image layer that was being overwritten with
+   the currently selected scene whenever the Range Shop opened. */
+.scene-list .scene-card .scene-card-photo {
+  background-image:none !important;
+}
+/* Keep the existing dark readability gradient over each fixed card image. */
+.scene-list .scene-card .scene-card-photo::after {
+  content:"" !important;
+  position:absolute !important;
+  inset:0 !important;
+  background:linear-gradient(180deg,transparent 32%,rgba(4,14,9,.90) 100%) !important;
+}
 </style>
 
 </head>
